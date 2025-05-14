@@ -23,8 +23,7 @@
  */
 import { ClassDecorate } from '@geckoai/class-mirror';
 import { RouteObject } from 'react-router-dom';
-import { GeckoModuleIml } from '@geckoai/gecko-core';
-import { BindingScope } from 'inversify';
+import { GeckoModuleIml, BindingScope } from '@geckoai/gecko-core';
 export declare class GeckoRouteDecorate extends ClassDecorate<Omit<RouteObject, "element">> {
 }
 export declare function GeckoRoute(metadata: Omit<RouteObject, "element">): ClassDecorator;

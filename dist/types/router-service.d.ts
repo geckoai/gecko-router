@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { Container, Newable } from '@geckoai/core';
+import { Container, Newable } from '@geckoai/gecko-core';
 import { RouteObject } from 'react-router-dom';
 export declare function useContainer(): Container;
 export declare function useCurrentModule<T = unknown>(target: Newable<T>): T | null;

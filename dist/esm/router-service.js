@@ -8,7 +8,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var RouterService_1;
-import { Constants, Container, injectable } from '@geckoai/core';
+import { Constants, Container, injectable } from '@geckoai/gecko-core';
 import { ClassMirror } from '@geckoai/class-mirror';
 import { GeckoRouteDecorate } from './decorators';
 import { Outlet } from 'react-router-dom';

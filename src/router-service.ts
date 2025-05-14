@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-import { Constants, Container, injectable, Newable } from '@geckoai/core';
+import { Constants, Container, injectable, Newable } from '@geckoai/gecko-core';
 import { ClassMirror } from '@geckoai/class-mirror';
 import { GeckoRouteDecorate } from './decorators';
 import { Outlet, RouteObject } from 'react-router-dom';

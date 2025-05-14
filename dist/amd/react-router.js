@@ -4,7 +4,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-define(["require", "exports", "@geckoai/core", "./router-service", "react-router-dom", "react"], function (require, exports, core_1, router_service_1, react_router_dom_1, react_1) {
+define(["require", "exports", "@geckoai/gecko-core", "react-router-dom", "react", "./router-service"], function (require, exports, gecko_core_1, react_router_dom_1, react_1, router_service_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.ReactRouter = void 0;
@@ -22,7 +22,7 @@ define(["require", "exports", "@geckoai/core", "./router-service", "react-router
         };
         ;
         ReactRouter = __decorate([
-            (0, core_1.GeckoModule)({
+            (0, gecko_core_1.GeckoModule)({
                 providers: [router_service_1.RouterService],
                 exports: [router_service_1.RouterService]
             })

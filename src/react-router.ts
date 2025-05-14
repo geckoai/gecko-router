@@ -22,23 +22,22 @@
  * SOFTWARE.
  */
 
-import { GeckoModule } from '@geckoai/core';
-import { RouterService } from './router-service';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { createElement, PropsWithChildren, useMemo } from 'react';
-import { LoadedModule } from '@geckoai/gecko-core';
+import {GeckoModule, LoadedModule} from '@geckoai/gecko-core';
+import {createBrowserRouter, RouterProvider} from 'react-router-dom';
+import {createElement, PropsWithChildren, useMemo} from 'react';
+import {RouterService} from './router-service';
 
 @GeckoModule({
   providers: [RouterService],
   exports: [RouterService]
 })
 export class ReactRouter {
-  public static Provider({ module }: PropsWithChildren<{ module: LoadedModule<any> }>) {
+  public static Provider({module}: PropsWithChildren<{ module: LoadedModule<any> }>) {
     const service = module.container.get(RouterService);
     const routes = useMemo(() => {
       return service?.route ? [service.route] : [];
     }, []);
     const router = createBrowserRouter(routes);
-    return createElement(RouterProvider, { router });
+    return createElement(RouterProvider, {router});
   };
 }

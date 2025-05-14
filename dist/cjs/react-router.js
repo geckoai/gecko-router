@@ -7,10 +7,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ReactRouter = void 0;
-var core_1 = require("@geckoai/core");
-var router_service_1 = require("./router-service");
+var gecko_core_1 = require("@geckoai/gecko-core");
 var react_router_dom_1 = require("react-router-dom");
 var react_1 = require("react");
+var router_service_1 = require("./router-service");
 var ReactRouter = (function () {
     function ReactRouter() {
     }
@@ -25,7 +25,7 @@ var ReactRouter = (function () {
     };
     ;
     ReactRouter = __decorate([
-        (0, core_1.GeckoModule)({
+        (0, gecko_core_1.GeckoModule)({
             providers: [router_service_1.RouterService],
             exports: [router_service_1.RouterService]
         })

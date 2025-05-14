@@ -21,14 +21,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { PropsWithChildren } from 'react';
 import { LoadedModule } from '@geckoai/gecko-core';
+import { PropsWithChildren } from 'react';
 export declare class ReactRouter {
     static Provider({ module }: PropsWithChildren<{
         module: LoadedModule<any>;
     }>): import("react").CElement<{
-        router: import("react-router/dist/development/route-data-C12CLHiN").a;
+        router: import("react-router-dom").DataRouter;
     }, import("react").Component<{
-        router: import("react-router/dist/development/route-data-C12CLHiN").a;
+        router: import("react-router-dom").DataRouter;
     }, any, any>>;
 }
