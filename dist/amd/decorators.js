@@ -16,9 +16,7 @@ var __extends = (this && this.__extends) || (function () {
 define(["require", "exports", "@geckoai/class-mirror", "@geckoai/gecko-core"], function (require, exports, class_mirror_1, gecko_core_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.GeckoRouteDecorate = void 0;
-    exports.GeckoRoute = GeckoRoute;
-    exports.GeckoRouteModule = GeckoRouteModule;
+    exports.GeckoRouteModule = exports.GeckoRoute = exports.GeckoRouteDecorate = void 0;
     var GeckoRouteDecorate = (function (_super) {
         __extends(GeckoRouteDecorate, _super);
         function GeckoRouteDecorate() {
@@ -30,7 +28,9 @@ define(["require", "exports", "@geckoai/class-mirror", "@geckoai/gecko-core"], f
     function GeckoRoute(metadata) {
         return (0, gecko_core_1.ApplyClassDecorators)(class_mirror_1.ClassMirror.createDecorator(new GeckoRouteDecorate(metadata)));
     }
+    exports.GeckoRoute = GeckoRoute;
     function GeckoRouteModule(metadata, moduleMetadata, scope) {
         return (0, gecko_core_1.ApplyClassDecorators)(class_mirror_1.ClassMirror.createDecorator(new GeckoRouteDecorate(metadata)), moduleMetadata ? (0, gecko_core_1.GeckoModule)(moduleMetadata, scope) : gecko_core_1.GeckoModule);
     }
+    exports.GeckoRouteModule = GeckoRouteModule;
 });
