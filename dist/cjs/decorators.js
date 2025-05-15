@@ -1,4 +1,3 @@
-"use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -14,23 +13,19 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.GeckoRouteModule = exports.GeckoRoute = exports.GeckoRouteDecorate = void 0;
-var class_mirror_1 = require("@geckoai/class-mirror");
-var gecko_core_1 = require("@geckoai/gecko-core");
+import { ClassDecorate, ClassMirror } from '@geckoai/class-mirror';
+import { ApplyClassDecorators, GeckoModule } from '@geckoai/gecko-core';
 var GeckoRouteDecorate = (function (_super) {
     __extends(GeckoRouteDecorate, _super);
     function GeckoRouteDecorate() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     return GeckoRouteDecorate;
-}(class_mirror_1.ClassDecorate));
-exports.GeckoRouteDecorate = GeckoRouteDecorate;
-function GeckoRoute(metadata) {
-    return (0, gecko_core_1.ApplyClassDecorators)(class_mirror_1.ClassMirror.createDecorator(new GeckoRouteDecorate(metadata)));
+}(ClassDecorate));
+export { GeckoRouteDecorate };
+export function GeckoRoute(metadata) {
+    return ApplyClassDecorators(ClassMirror.createDecorator(new GeckoRouteDecorate(metadata)));
 }
-exports.GeckoRoute = GeckoRoute;
-function GeckoRouteModule(metadata, moduleMetadata, scope) {
-    return (0, gecko_core_1.ApplyClassDecorators)(class_mirror_1.ClassMirror.createDecorator(new GeckoRouteDecorate(metadata)), moduleMetadata ? (0, gecko_core_1.GeckoModule)(moduleMetadata, scope) : gecko_core_1.GeckoModule);
+export function GeckoRouteModule(metadata, moduleMetadata, scope) {
+    return ApplyClassDecorators(ClassMirror.createDecorator(new GeckoRouteDecorate(metadata)), moduleMetadata ? GeckoModule(moduleMetadata, scope) : GeckoModule);
 }
-exports.GeckoRouteModule = GeckoRouteModule;
