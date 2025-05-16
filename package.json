@@ -1,6 +1,6 @@
 {
   "name": "@geckoai/gecko-router",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "main": "dist/cjs",
   "types": "dist/types",
@@ -20,11 +20,11 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@geckoai/class-mirror": "1.0.2",
+    "@geckoai/class-mirror": "^1.0.2",
+    "@geckoai/gecko-core": "^1.0.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-router-dom": "^7.5.3",
-    "@geckoai/gecko-core": "1.0.1"
+    "react-router-dom": "^7.5.3"
   },
   "devDependencies": {
     "@types/react": "^18.2.70",
