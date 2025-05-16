@@ -12,8 +12,8 @@ importers:
         specifier: 1.0.2
         version: 1.0.2
       '@geckoai/gecko-core':
-        specifier: 1.0.2
-        version: 1.0.2(reflect-metadata@0.2.2)
+        specifier: 1.0.1
+        version: 1.0.1(reflect-metadata@0.2.2)
       react:
         specifier: ^19.1.0
         version: 19.1.0
@@ -31,16 +31,16 @@ importers:
         specifier: ^18.2.22
         version: 18.3.7(@types/react@18.3.21)
       typescript:
-        specifier: 5.8.3
-        version: 5.8.3
+        specifier: 4.9.5
+        version: 4.9.5
 
 packages:
 
   '@geckoai/class-mirror@1.0.2':
     resolution: {integrity: sha512-0ShYTH9Ki7ZULP/qqlEcExsL8lyRxqAHJUi8s2F/ONtJYiEYT21ecONUYumCZFAp/TvlEultFrt+vN2KO47gcw==}
 
-  '@geckoai/gecko-core@1.0.2':
-    resolution: {integrity: sha512-ANQDM+nKiIklIv9hJNQN5XMLy4v3DepVLFH5Hla5jclvtLEX+mZPyIhAHKMQs+7XkMLY8H7dcol5kFnp7W4bFw==}
+  '@geckoai/gecko-core@1.0.1':
+    resolution: {integrity: sha512-GYrkK18KZApUD6c7JwLeOzABZdKIbwaaE4B6y9/+ITnhcor17SI9ktkcblpuJKVvWsARKDasQdmX2ghHuewVrA==}
 
   '@inversifyjs/common@1.5.0':
     resolution: {integrity: sha512-Qj5BELk11AfI2rgZEAaLPmOftmQRLLmoCXgAjmaF0IngQN5vHomVT5ML7DZ3+CA5fgGcEVMcGbUDAun+Rz+oNg==}
@@ -119,16 +119,16 @@ packages:
   set-cookie-parser@2.7.1:
     resolution: {integrity: sha512-IOc8uWeOZgnb3ptbCURJWNjWUPcO3ZnTTdzsurqERrP6nPyv+paC55vJM0LpOlT2ne+Ix+9+CRG1MNLlyZ4GjQ==}
 
-  typescript@5.8.3:
-    resolution: {integrity: sha512-p1diW6TqL9L07nNxvRMM7hMMw4c5XOo/1ibL4aAIGmSAt9slTE1Xgw5KWuof2uTOvCg9BY7ZRi+GaF+7sfgPeQ==}
-    engines: {node: '>=14.17'}
+  typescript@4.9.5:
+    resolution: {integrity: sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==}
+    engines: {node: '>=4.2.0'}
     hasBin: true
 
 snapshots:
 
   '@geckoai/class-mirror@1.0.2': {}
 
-  '@geckoai/gecko-core@1.0.2(reflect-metadata@0.2.2)':
+  '@geckoai/gecko-core@1.0.1(reflect-metadata@0.2.2)':
     dependencies:
       '@geckoai/class-mirror': 1.0.2
       inversify: 7.5.1(reflect-metadata@0.2.2)
@@ -209,4 +209,4 @@ snapshots:
 
   set-cookie-parser@2.7.1: {}
 
-  typescript@5.8.3: {}
+  typescript@4.9.5: {}

@@ -23,9 +23,6 @@ var GeckoRouteDecorate = (function (_super) {
     return GeckoRouteDecorate;
 }(ClassDecorate));
 export { GeckoRouteDecorate };
-export function GeckoRoute(metadata) {
-    return ApplyClassDecorators(ClassMirror.createDecorator(new GeckoRouteDecorate(metadata)));
-}
-export function GeckoRouteModule(metadata, moduleMetadata, scope) {
-    return ApplyClassDecorators(ClassMirror.createDecorator(new GeckoRouteDecorate(metadata)), moduleMetadata ? GeckoModule(moduleMetadata, scope) : GeckoModule);
+export function GeckoRouteModule(arg, module, scope) {
+    return ApplyClassDecorators(ClassMirror.createDecorator(new GeckoRouteDecorate(typeof arg === 'string' ? { path: arg } : arg)), module ? GeckoModule(module, scope) : GeckoModule);
 }

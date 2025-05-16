@@ -22,25 +22,20 @@
  * SOFTWARE.
  */
 
-import { ClassDecorate, ClassMirror } from '@geckoai/class-mirror';
-import { RouteObject } from 'react-router-dom';
-import { ApplyClassDecorators, GeckoModule, GeckoModuleIml, BindingScope } from '@geckoai/gecko-core';
+import {ClassDecorate, ClassMirror} from '@geckoai/class-mirror';
+import {RouteObject} from 'react-router-dom';
+import {ApplyClassDecorators, BindingScope, GeckoModule, GeckoModuleIml} from '@geckoai/gecko-core';
 
-export class GeckoRouteDecorate extends ClassDecorate<Omit<RouteObject, "element">> {}
-
-export function GeckoRoute(metadata: Omit<RouteObject, "element">): ClassDecorator {
-  return ApplyClassDecorators(
-    ClassMirror.createDecorator(new GeckoRouteDecorate(
-      metadata
-    ))
-  );
+export class GeckoRouteDecorate extends ClassDecorate<Omit<RouteObject, "element">> {
 }
 
-export function GeckoRouteModule(metadata: Omit<RouteObject, "element">, moduleMetadata?: Partial<GeckoModuleIml>, scope?: BindingScope): ClassDecorator {
+export function GeckoRouteModule(path: string, module?: Partial<GeckoModuleIml>, scope?: BindingScope): ClassDecorator;
+export function GeckoRouteModule(route: Omit<RouteObject, "element">, module?: Partial<GeckoModuleIml>, scope?: BindingScope): ClassDecorator;
+export function GeckoRouteModule(arg: Omit<RouteObject, "element"> | string, module?: Partial<GeckoModuleIml>, scope?: BindingScope): ClassDecorator {
   return ApplyClassDecorators(
     ClassMirror.createDecorator(new GeckoRouteDecorate(
-      metadata
+      typeof arg === 'string' ? {path: arg} : arg,
     )),
-    moduleMetadata ? GeckoModule(moduleMetadata, scope) : GeckoModule
+    module ? GeckoModule(module, scope) : GeckoModule
   );
 }
