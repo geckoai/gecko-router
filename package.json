@@ -21,7 +21,7 @@
   "license": "MIT",
   "dependencies": {
     "@geckoai/class-mirror": "^1.0.2",
-    "@geckoai/gecko-core": "workspace:*",
+    "@geckoai/gecko-core": "1.0.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.5.3"
