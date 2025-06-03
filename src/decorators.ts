@@ -22,20 +22,84 @@
  * SOFTWARE.
  */
 
-import {ClassDecorate, ClassMirror} from '@geckoai/class-mirror';
-import {RouteObject} from 'react-router-dom';
-import {ApplyClassDecorators, BindingScope, GeckoModule, GeckoModuleIml} from '@geckoai/gecko-core';
+import { ClassDecorate, ClassMirror } from '@geckoai/class-mirror';
+import { RouteObject } from 'react-router-dom';
+import { ApplyClassDecorators, Container } from '@geckoai/gecko-core';
+import { DOMRouterOpts } from 'react-router';
+import { ComponentType } from 'react';
 
-export class GeckoRouteDecorate extends ClassDecorate<Omit<RouteObject, "element">> {
+export class GeckoLazyTaskDecorate extends ClassDecorate<(container: Container) => Promise<void>> {}
+
+export class GeckoRouteDecorate extends ClassDecorate<Omit<RouteObject, 'element'>> {
 }
 
-export function GeckoRouteModule(path: string, module?: Partial<GeckoModuleIml>, scope?: BindingScope): ClassDecorator;
-export function GeckoRouteModule(route: Omit<RouteObject, "element">, module?: Partial<GeckoModuleIml>, scope?: BindingScope): ClassDecorator;
-export function GeckoRouteModule(arg: Omit<RouteObject, "element"> | string, module?: Partial<GeckoModuleIml>, scope?: BindingScope): ClassDecorator {
+export class GeckoRouterDecorate<T> extends ClassDecorate<T> {}
+
+export class GeckoHashRouterDecorate extends GeckoRouterDecorate<DOMRouterOpts | undefined> {
+}
+
+export class GeckoBrowserRouterDecorate extends GeckoRouterDecorate<DOMRouterOpts | undefined> {
+}
+
+export class GeckoMemoryRouterDecorate extends GeckoRouterDecorate<DOMRouterOpts | undefined> {
+}
+
+export class GeckoFallbackDecorate extends ClassDecorate<ComponentType> {}
+
+
+export function Route<TFunction extends Function>(target: TFunction): TFunction | void;
+export function Route(path: string): ClassDecorator;
+export function Route(route: Omit<RouteObject, 'element'>): ClassDecorator;
+export function Route<TFunction extends Function>(arg: Omit<RouteObject, 'element'> | string | TFunction): ClassDecorator | (TFunction | void) {
+  switch (typeof arg) {
+    case 'function':
+      return ClassMirror.createDecorator(new GeckoRouteDecorate(
+        { path: '' }
+      ))(arg);
+    case 'string':
+      return ClassMirror.createDecorator(new GeckoRouteDecorate(
+        { path: arg }
+      ));
+    default:
+      return ClassMirror.createDecorator(new GeckoRouteDecorate(
+        arg
+      ));
+  }
+}
+
+export function Fallback(component: ComponentType<any>) {
+  return ClassMirror.createDecorator(new GeckoFallbackDecorate(component));
+}
+
+export function BrowserRouter<TFunction extends Function>(target: TFunction): TFunction | void;
+export function BrowserRouter(ops?: DOMRouterOpts): ClassDecorator;
+export function BrowserRouter<TFunction extends Function>(ops?: DOMRouterOpts | TFunction): ClassDecorator | (TFunction | void) {
+  if (typeof ops === 'function') {
+    return ClassMirror.createDecorator(new GeckoBrowserRouterDecorate(undefined))(ops);
+  }
   return ApplyClassDecorators(
-    ClassMirror.createDecorator(new GeckoRouteDecorate(
-      typeof arg === 'string' ? {path: arg} : arg,
-    )),
-    module ? GeckoModule(module, scope) : GeckoModule
+    ClassMirror.createDecorator(new GeckoBrowserRouterDecorate(ops))
+  );
+}
+
+export function HashRouter<TFunction extends Function>(target: TFunction): TFunction | void;
+export function HashRouter(ops?: DOMRouterOpts): ClassDecorator;
+export function HashRouter<TFunction extends Function>(ops?: DOMRouterOpts | TFunction): ClassDecorator | (TFunction | void) {
+  if (typeof ops === 'function') {
+    return ClassMirror.createDecorator(new GeckoHashRouterDecorate(undefined))(ops);
+  }
+  return ApplyClassDecorators(
+    ClassMirror.createDecorator(new GeckoHashRouterDecorate(ops))
+  );
+}
+
+export function MemoryRouter<TFunction extends Function>(target: TFunction): TFunction | void;
+export function MemoryRouter(ops?: DOMRouterOpts): ClassDecorator;
+export function MemoryRouter<TFunction extends Function>(ops?: DOMRouterOpts | TFunction): ClassDecorator | (TFunction | void) {
+  if (typeof ops === 'function') {
+    return ClassMirror.createDecorator(new GeckoMemoryRouterDecorate(undefined))(ops);
+  }
+  return ApplyClassDecorators(
+    ClassMirror.createDecorator(new GeckoMemoryRouterDecorate(ops))
   );
 }
