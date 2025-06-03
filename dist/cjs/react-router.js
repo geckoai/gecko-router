@@ -71,6 +71,7 @@ import { GeckoBrowserRouterDecorate, GeckoFallbackDecorate, GeckoHashRouterDecor
 import { createBrowserRouter, createHashRouter, createMemoryRouter, Outlet } from 'react-router-dom';
 import { createContext, createElement, lazy, Suspense, useContext } from 'react';
 import { FallbackNode } from './fallback-node';
+import { LazyService } from './lazy-service';
 var Context = createContext(null);
 export function useContainer() {
     return useContext(Context);
@@ -112,6 +113,7 @@ var ReactRouter = (function () {
             var mirror = container.get(ClassMirror);
             var routes = mirror.getDecorates(GeckoRouteDecorate);
             var tasks = mirror.getDecorates(GeckoLazyTaskDecorate);
+            container.bind(LazyService).to(LazyService).inSingletonScope();
             if (routes && routes.length > 1) {
                 console.warn('There are multiple @Route decorators, and only the latest one will be selected for execution during runtime.');
             }
@@ -124,23 +126,26 @@ var ReactRouter = (function () {
                     children: Component_1 ? createElement(Component_1) : createElement(Outlet)
                 });
                 if (tasks && tasks.length > 1) {
-                    var LazyComponent = lazy(function () { return __awaiter(_this, void 0, void 0, function () {
-                        return __generator(this, function (_a) {
-                            switch (_a.label) {
-                                case 0: return [4, Promise.all(tasks.map(function (x) { return x.metadata(container); }))];
-                                case 1:
-                                    _a.sent();
-                                    return [2, { default: Component_1 !== null && Component_1 !== void 0 ? Component_1 : Outlet }];
-                            }
+                    var Fallback_1 = mirror.getDecorates(GeckoFallbackDecorate)[0];
+                    var laze = function () {
+                        var key = container.get(LazyService).asState()[0];
+                        return createElement(Suspense, {
+                            fallback: Fallback_1 ? createElement(Fallback_1.metadata) : createElement(FallbackNode),
+                            children: createElement(lazy(function () { return __awaiter(_this, void 0, void 0, function () {
+                                return __generator(this, function (_a) {
+                                    switch (_a.label) {
+                                        case 0: return [4, Promise.all(tasks.map(function (x) { return x.metadata(container); }))];
+                                        case 1:
+                                            _a.sent();
+                                            return [2, { default: Component_1 !== null && Component_1 !== void 0 ? Component_1 : Outlet }];
+                                    }
+                                });
+                            }); }), { key: key })
                         });
-                    }); });
-                    var Fallback = mirror.getDecorates(GeckoFallbackDecorate)[0];
+                    };
                     element = createElement(Context.Provider, {
                         value: container,
-                        children: createElement(Suspense, {
-                            fallback: Fallback ? createElement(Fallback.metadata) : createElement(FallbackNode),
-                            children: createElement(LazyComponent)
-                        })
+                        children: createElement(laze)
                     });
                 }
                 return __assign(__assign({}, rest), { element: element, children: list.length > 0 ? list : undefined });
@@ -153,10 +158,7 @@ var ReactRouter = (function () {
     ReactRouter.options = Symbol.for('options');
     ReactRouter.Router = Symbol.for('Router');
     ReactRouter = ReactRouter_1 = __decorate([
-        GeckoModule({
-            providers: [],
-            exports: []
-        }),
+        GeckoModule,
         __metadata("design:paramtypes", [Container])
     ], ReactRouter);
     return ReactRouter;

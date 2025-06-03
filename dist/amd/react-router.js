@@ -65,7 +65,7 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
-define(["require", "exports", "@geckoai/gecko-core", "@geckoai/class-mirror", "./decorators", "react-router-dom", "react", "./fallback-node"], function (require, exports, gecko_core_1, class_mirror_1, decorators_1, react_router_dom_1, react_1, fallback_node_1) {
+define(["require", "exports", "@geckoai/gecko-core", "@geckoai/class-mirror", "./decorators", "react-router-dom", "react", "./fallback-node", "./lazy-service"], function (require, exports, gecko_core_1, class_mirror_1, decorators_1, react_router_dom_1, react_1, fallback_node_1, lazy_service_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.ReactRouter = exports.useCurrentModule = exports.useContainer = void 0;
@@ -112,6 +112,7 @@ define(["require", "exports", "@geckoai/gecko-core", "@geckoai/class-mirror", ".
                 var mirror = container.get(class_mirror_1.ClassMirror);
                 var routes = mirror.getDecorates(decorators_1.GeckoRouteDecorate);
                 var tasks = mirror.getDecorates(decorators_1.GeckoLazyTaskDecorate);
+                container.bind(lazy_service_1.LazyService).to(lazy_service_1.LazyService).inSingletonScope();
                 if (routes && routes.length > 1) {
                     console.warn('There are multiple @Route decorators, and only the latest one will be selected for execution during runtime.');
                 }
@@ -124,23 +125,26 @@ define(["require", "exports", "@geckoai/gecko-core", "@geckoai/class-mirror", ".
                         children: Component_1 ? (0, react_1.createElement)(Component_1) : (0, react_1.createElement)(react_router_dom_1.Outlet)
                     });
                     if (tasks && tasks.length > 1) {
-                        var LazyComponent = (0, react_1.lazy)(function () { return __awaiter(_this, void 0, void 0, function () {
-                            return __generator(this, function (_a) {
-                                switch (_a.label) {
-                                    case 0: return [4, Promise.all(tasks.map(function (x) { return x.metadata(container); }))];
-                                    case 1:
-                                        _a.sent();
-                                        return [2, { default: Component_1 !== null && Component_1 !== void 0 ? Component_1 : react_router_dom_1.Outlet }];
-                                }
+                        var Fallback_1 = mirror.getDecorates(decorators_1.GeckoFallbackDecorate)[0];
+                        var laze = function () {
+                            var key = container.get(lazy_service_1.LazyService).asState()[0];
+                            return (0, react_1.createElement)(react_1.Suspense, {
+                                fallback: Fallback_1 ? (0, react_1.createElement)(Fallback_1.metadata) : (0, react_1.createElement)(fallback_node_1.FallbackNode),
+                                children: (0, react_1.createElement)((0, react_1.lazy)(function () { return __awaiter(_this, void 0, void 0, function () {
+                                    return __generator(this, function (_a) {
+                                        switch (_a.label) {
+                                            case 0: return [4, Promise.all(tasks.map(function (x) { return x.metadata(container); }))];
+                                            case 1:
+                                                _a.sent();
+                                                return [2, { default: Component_1 !== null && Component_1 !== void 0 ? Component_1 : react_router_dom_1.Outlet }];
+                                        }
+                                    });
+                                }); }), { key: key })
                             });
-                        }); });
-                        var Fallback = mirror.getDecorates(decorators_1.GeckoFallbackDecorate)[0];
+                        };
                         element = (0, react_1.createElement)(Context.Provider, {
                             value: container,
-                            children: (0, react_1.createElement)(react_1.Suspense, {
-                                fallback: Fallback ? (0, react_1.createElement)(Fallback.metadata) : (0, react_1.createElement)(fallback_node_1.FallbackNode),
-                                children: (0, react_1.createElement)(LazyComponent)
-                            })
+                            children: (0, react_1.createElement)(laze)
                         });
                     }
                     return __assign(__assign({}, rest), { element: element, children: list.length > 0 ? list : undefined });
@@ -153,10 +157,7 @@ define(["require", "exports", "@geckoai/gecko-core", "@geckoai/class-mirror", ".
         ReactRouter.options = Symbol.for('options');
         ReactRouter.Router = Symbol.for('Router');
         ReactRouter = ReactRouter_1 = __decorate([
-            (0, gecko_core_1.GeckoModule)({
-                providers: [],
-                exports: []
-            }),
+            gecko_core_1.GeckoModule,
             __metadata("design:paramtypes", [gecko_core_1.Container])
         ], ReactRouter);
         return ReactRouter;

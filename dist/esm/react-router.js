@@ -14,6 +14,7 @@ import { GeckoBrowserRouterDecorate, GeckoFallbackDecorate, GeckoHashRouterDecor
 import { createBrowserRouter, createHashRouter, createMemoryRouter, Outlet } from 'react-router-dom';
 import { createContext, createElement, lazy, Suspense, useContext } from 'react';
 import { FallbackNode } from './fallback-node';
+import { LazyService } from './lazy-service';
 const Context = createContext(null);
 export function useContainer() {
     return useContext(Context);
@@ -55,6 +56,7 @@ let ReactRouter = ReactRouter_1 = class ReactRouter {
             const mirror = container.get(ClassMirror);
             const routes = mirror.getDecorates(GeckoRouteDecorate);
             const tasks = mirror.getDecorates(GeckoLazyTaskDecorate);
+            container.bind(LazyService).to(LazyService).inSingletonScope();
             if (routes && routes.length > 1) {
                 console.warn('There are multiple @Route decorators, and only the latest one will be selected for execution during runtime.');
             }
@@ -67,17 +69,20 @@ let ReactRouter = ReactRouter_1 = class ReactRouter {
                     children: Component ? createElement(Component) : createElement(Outlet)
                 });
                 if (tasks && tasks.length > 1) {
-                    const LazyComponent = lazy(async () => {
-                        await Promise.all(tasks.map(x => x.metadata(container)));
-                        return { default: Component ?? Outlet };
-                    });
                     const [Fallback] = mirror.getDecorates(GeckoFallbackDecorate);
+                    const laze = () => {
+                        const [key] = container.get(LazyService).asState();
+                        return createElement(Suspense, {
+                            fallback: Fallback ? createElement(Fallback.metadata) : createElement(FallbackNode),
+                            children: createElement(lazy(async () => {
+                                await Promise.all(tasks.map(x => x.metadata(container)));
+                                return { default: Component ?? Outlet };
+                            }), { key })
+                        });
+                    };
                     element = createElement(Context.Provider, {
                         value: container,
-                        children: createElement(Suspense, {
-                            fallback: Fallback ? createElement(Fallback.metadata) : createElement(FallbackNode),
-                            children: createElement(LazyComponent)
-                        })
+                        children: createElement(laze)
                     });
                 }
                 return {
@@ -91,10 +96,7 @@ let ReactRouter = ReactRouter_1 = class ReactRouter {
     }
 };
 ReactRouter = ReactRouter_1 = __decorate([
-    GeckoModule({
-        providers: [],
-        exports: []
-    }),
+    GeckoModule,
     __metadata("design:paramtypes", [Container])
 ], ReactRouter);
 export { ReactRouter };
