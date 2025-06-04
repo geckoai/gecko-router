@@ -80,6 +80,10 @@ export function useCurrentModule(target) {
     var _a;
     return ((_a = useContainer()) === null || _a === void 0 ? void 0 : _a.get(target)) || null;
 }
+export function useService(serviceIdentifier, opts) {
+    var _a;
+    return (_a = useContext(Context)) === null || _a === void 0 ? void 0 : _a.get(serviceIdentifier, opts);
+}
 var ReactRouter = (function () {
     function ReactRouter(container) {
         this.container = container;

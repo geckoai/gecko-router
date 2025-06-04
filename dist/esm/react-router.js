@@ -22,6 +22,9 @@ export function useContainer() {
 export function useCurrentModule(target) {
     return useContainer()?.get(target) || null;
 }
+export function useService(serviceIdentifier, opts) {
+    return useContext(Context)?.get(serviceIdentifier, opts);
+}
 let ReactRouter = ReactRouter_1 = class ReactRouter {
     container;
     static routes = Symbol.for('provider');

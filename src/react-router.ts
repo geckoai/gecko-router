@@ -36,6 +36,8 @@ import { createBrowserRouter, createHashRouter, createMemoryRouter, Outlet, Rout
 import { createContext, createElement, lazy, Suspense, useContext } from 'react';
 import { FallbackNode } from './fallback-node';
 import { LazyService } from './lazy-service';
+import {ServiceIdentifier} from "inversify";
+import {OptionalGetOptions} from "@inversifyjs/core";
 
 const Context = createContext<Container | null>(null);
 
@@ -47,6 +49,9 @@ export function useCurrentModule<T = unknown>(target: Newable<T>): T | null {
   return useContainer()?.get(target) || null;
 }
 
+export function useService<T>(serviceIdentifier: ServiceIdentifier<any>, opts?: OptionalGetOptions): T | undefined {
+  return useContext(Context)?.get<T>(serviceIdentifier, opts);
+}
 
 @GeckoModule
 export class ReactRouter {

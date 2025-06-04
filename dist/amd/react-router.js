@@ -68,7 +68,7 @@ var __rest = (this && this.__rest) || function (s, e) {
 define(["require", "exports", "@geckoai/gecko-core", "@geckoai/class-mirror", "./decorators", "react-router-dom", "react", "./fallback-node", "./lazy-service"], function (require, exports, gecko_core_1, class_mirror_1, decorators_1, react_router_dom_1, react_1, fallback_node_1, lazy_service_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.ReactRouter = exports.useCurrentModule = exports.useContainer = void 0;
+    exports.ReactRouter = exports.useService = exports.useCurrentModule = exports.useContainer = void 0;
     var Context = (0, react_1.createContext)(null);
     function useContainer() {
         return (0, react_1.useContext)(Context);
@@ -79,6 +79,11 @@ define(["require", "exports", "@geckoai/gecko-core", "@geckoai/class-mirror", ".
         return ((_a = useContainer()) === null || _a === void 0 ? void 0 : _a.get(target)) || null;
     }
     exports.useCurrentModule = useCurrentModule;
+    function useService(serviceIdentifier, opts) {
+        var _a;
+        return (_a = (0, react_1.useContext)(Context)) === null || _a === void 0 ? void 0 : _a.get(serviceIdentifier, opts);
+    }
+    exports.useService = useService;
     var ReactRouter = (function () {
         function ReactRouter(container) {
             this.container = container;

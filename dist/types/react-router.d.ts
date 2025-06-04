@@ -22,8 +22,11 @@
  * SOFTWARE.
  */
 import { Container, Newable } from '@geckoai/gecko-core';
+import { ServiceIdentifier } from "inversify";
+import { OptionalGetOptions } from "@inversifyjs/core";
 export declare function useContainer(): Container;
 export declare function useCurrentModule<T = unknown>(target: Newable<T>): T | null;
+export declare function useService<T>(serviceIdentifier: ServiceIdentifier<any>, opts?: OptionalGetOptions): T | undefined;
 export declare class ReactRouter {
     private container;
     static routes: symbol;
