@@ -9,6 +9,6 @@ let LazyService = class LazyService {
     vm = ViewModel.for(Date.now());
 };
 LazyService = __decorate([
-    injectable()
+    injectable("Singleton")
 ], LazyService);
 export { LazyService };

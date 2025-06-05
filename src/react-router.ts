@@ -39,18 +39,14 @@ import { LazyService } from './lazy-service';
 import {ServiceIdentifier} from "inversify";
 import {OptionalGetOptions} from "@inversifyjs/core";
 
-const Context = createContext<Container | null>(null);
+const Context = createContext<Container>(new Container());
 
 export function useContainer() {
   return useContext(Context);
 }
 
-export function useCurrentModule<T = unknown>(target: Newable<T>): T | null {
-  return useContainer()?.get(target) || null;
-}
-
-export function useService<T>(serviceIdentifier: ServiceIdentifier<any>, opts?: OptionalGetOptions): T | undefined {
-  return useContext(Context)?.get<T>(serviceIdentifier, opts);
+export function useService<T>(serviceIdentifier: ServiceIdentifier<any>, opts?: OptionalGetOptions): T {
+  return useContext(Context).get<T>(serviceIdentifier, opts);
 }
 
 @GeckoModule

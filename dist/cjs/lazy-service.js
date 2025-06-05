@@ -10,7 +10,7 @@ var LazyService = (function () {
         this.vm = ViewModel.for(Date.now());
     }
     LazyService = __decorate([
-        injectable()
+        injectable("Singleton")
     ], LazyService);
     return LazyService;
 }());

@@ -13,7 +13,7 @@ define(["require", "exports", "@geckoai/gecko-core"], function (require, exports
             this.vm = gecko_core_1.ViewModel.for(Date.now());
         }
         LazyService = __decorate([
-            (0, gecko_core_1.injectable)()
+            (0, gecko_core_1.injectable)("Singleton")
         ], LazyService);
         return LazyService;
     }());

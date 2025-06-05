@@ -15,15 +15,12 @@ import { createBrowserRouter, createHashRouter, createMemoryRouter, Outlet } fro
 import { createContext, createElement, lazy, Suspense, useContext } from 'react';
 import { FallbackNode } from './fallback-node';
 import { LazyService } from './lazy-service';
-const Context = createContext(null);
+const Context = createContext(new Container());
 export function useContainer() {
     return useContext(Context);
 }
-export function useCurrentModule(target) {
-    return useContainer()?.get(target) || null;
-}
 export function useService(serviceIdentifier, opts) {
-    return useContext(Context)?.get(serviceIdentifier, opts);
+    return useContext(Context).get(serviceIdentifier, opts);
 }
 let ReactRouter = ReactRouter_1 = class ReactRouter {
     container;

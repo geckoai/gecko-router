@@ -13,7 +13,7 @@ importers:
         version: 1.0.2
       '@geckoai/gecko-core':
         specifier: 1.0.0
-        version: 1.0.0(reflect-metadata@0.2.2)
+        version: 1.0.0(react@19.1.0)(reflect-metadata@0.2.2)(typescript@4.9.5)
       react:
         specifier: ^19.1.0
         version: 19.1.0
@@ -22,17 +22,17 @@ importers:
         version: 19.1.0(react@19.1.0)
       react-router-dom:
         specifier: ^7.5.3
-        version: 7.6.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        version: 7.6.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       rxjs:
         specifier: ^7.8.2
         version: 7.8.2
     devDependencies:
       '@types/react':
         specifier: ^18.2.70
-        version: 18.3.21
+        version: 18.3.23
       '@types/react-dom':
         specifier: ^18.2.22
-        version: 18.3.7(@types/react@18.3.21)
+        version: 18.3.7(@types/react@18.3.23)
       typescript:
         specifier: 4.9.5
         version: 4.9.5
@@ -43,18 +43,24 @@ packages:
     resolution: {integrity: sha512-0ShYTH9Ki7ZULP/qqlEcExsL8lyRxqAHJUi8s2F/ONtJYiEYT21ecONUYumCZFAp/TvlEultFrt+vN2KO47gcw==}
 
   '@geckoai/gecko-core@1.0.0':
-    resolution: {integrity: sha512-IHFBcSLH41cxxI4+eFdb0MHsvuaPq4Zsrq38rA6/9szOSGQ913L6XXNytjUTs7FXJDcBu6nv4LR3KnOWRRSfIQ==}
+    resolution: {integrity: sha512-YOWtgp62hI6quQv6Zyu7KH+rUex5JTw4g09xN/LoyC+d2TDIKP8STXTvqVZkrAqb+b7ap1KqpAwed+vAyBoMPA==}
+    peerDependencies:
+      react: '>= 16'
+      typescript: ^3.2.1 || ^4
 
   '@inversifyjs/common@1.5.0':
     resolution: {integrity: sha512-Qj5BELk11AfI2rgZEAaLPmOftmQRLLmoCXgAjmaF0IngQN5vHomVT5ML7DZ3+CA5fgGcEVMcGbUDAun+Rz+oNg==}
 
-  '@inversifyjs/container@1.9.1':
-    resolution: {integrity: sha512-8EhjFoAx1LoD7TpCuP9ptitwc+7kVXEpZB0IeoEsCQb9sWaNYYaBi+7Lommu3/1nYxdMbX2t7AJhQnryT1EEsg==}
+  '@inversifyjs/container@1.10.1':
+    resolution: {integrity: sha512-wrgiCn4R50IJQO0QBqrobdyLpzYngQCHyTAnlvgzQIfxnKrAKGGEUdDQ2bLbZXq3313GVz/Jb5C4RuW7M55cvQ==}
     peerDependencies:
       reflect-metadata: ~0.2.2
 
-  '@inversifyjs/core@5.2.0':
-    resolution: {integrity: sha512-MMaHGGRjQWT9uAof63sbZyEhRl4XptEAE17DJwrgUcN9LsdIEvecKP3r53pE9VF88PFR41knUKKzagUBvWLHmw==}
+  '@inversifyjs/core@5.3.1':
+    resolution: {integrity: sha512-cWVuKb6bsULng+1RlDx/Tuq8/u5wkpHx5sSjeLsHTbNrIhd8V0FLjhET00aSzovxJLMz1dkCIMhF8HUrnboAOQ==}
+
+  '@inversifyjs/plugin@0.2.0':
+    resolution: {integrity: sha512-R/JAdkTSD819pV1zi0HP54mWHyX+H2m8SxldXRgPQarS3ySV4KPyRdosWcfB8Se0JJZWZLHYiUNiS6JvMWSPjw==}
 
   '@inversifyjs/prototype-utils@0.1.0':
     resolution: {integrity: sha512-lNz1yyajMRDXBHLvJsYYX81FcmeD15e5Qz1zAZ/3zeYTl+u7ZF/GxNRKJzNOloeMPMtuR8BnvzHA1SZxjR+J9w==}
@@ -72,8 +78,8 @@ packages:
     peerDependencies:
       '@types/react': ^18.0.0
 
-  '@types/react@18.3.21':
-    resolution: {integrity: sha512-gXLBtmlcRJeT09/sI4PxVwyrku6SaNUj/6cMubjE6T6XdY1fDmBL7r0nX0jbSZPU/Xr0KuwLLZh6aOYY5d91Xw==}
+  '@types/react@18.3.23':
+    resolution: {integrity: sha512-/LDXMQh55EzZQ0uVAZmKKhfENivEvWz6E+EYzh+/MCjMhNsotd+ZHhBGIjFDTi6+fz0OhQQQLbTgdQIxxCsC0w==}
 
   cookie@1.0.2:
     resolution: {integrity: sha512-9Kr/j4O16ISv8zBBhJoi4bXOYNTkFLOqSL3UDB0njXxCXNezjeyVrJyGOWtgfs/q2km1gwBcfH8q1yEGoMYunA==}
@@ -82,8 +88,8 @@ packages:
   csstype@3.1.3:
     resolution: {integrity: sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw==}
 
-  inversify@7.5.1:
-    resolution: {integrity: sha512-oWWFDU2BXiuqZynGcLDDD4tqiWAeaEUCALlCj0vk/QwHGgZY/tzDFPuTmWMY3jwRmDIHxVDkcj9SL3MFTlCEDw==}
+  inversify@7.5.2:
+    resolution: {integrity: sha512-RpI97sBhBntaUzN2gLRbAyhXmEbBpTNKZKlJJ6qPW3xB4D6AwBt9SP85ehE+glgqBoan24Eu2SzTGbSpgkxuLw==}
     peerDependencies:
       reflect-metadata: ~0.2.2
 
@@ -92,15 +98,15 @@ packages:
     peerDependencies:
       react: ^19.1.0
 
-  react-router-dom@7.6.0:
-    resolution: {integrity: sha512-DYgm6RDEuKdopSyGOWZGtDfSm7Aofb8CCzgkliTjtu/eDuB0gcsv6qdFhhi8HdtmA+KHkt5MfZ5K2PdzjugYsA==}
+  react-router-dom@7.6.2:
+    resolution: {integrity: sha512-Q8zb6VlTbdYKK5JJBLQEN06oTUa/RAbG/oQS1auK1I0TbJOXktqm+QENEVJU6QvWynlXPRBXI3fiOQcSEA78rA==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
       react: '>=18'
       react-dom: '>=18'
 
-  react-router@7.6.0:
-    resolution: {integrity: sha512-GGufuHIVCJDbnIAXP3P9Sxzq3UUsddG3rrI3ut1q6m0FI6vxVBF3JoPQ38+W/blslLH4a5Yutp8drkEpXoddGQ==}
+  react-router@7.6.2:
+    resolution: {integrity: sha512-U7Nv3y+bMimgWjhlT5CRdzHPu2/KVmqPwKUCChW8en5P3znxUqwlYFlbmyj8Rgp1SF6zs5X4+77kBVknkg6a0w==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
       react: '>=18'
@@ -137,29 +143,35 @@ snapshots:
 
   '@geckoai/class-mirror@1.0.2': {}
 
-  '@geckoai/gecko-core@1.0.0(reflect-metadata@0.2.2)':
+  '@geckoai/gecko-core@1.0.0(react@19.1.0)(reflect-metadata@0.2.2)(typescript@4.9.5)':
     dependencies:
       '@geckoai/class-mirror': 1.0.2
-      inversify: 7.5.1(reflect-metadata@0.2.2)
+      inversify: 7.5.2(reflect-metadata@0.2.2)
+      react: 19.1.0
+      rxjs: 7.8.2
+      typescript: 4.9.5
     transitivePeerDependencies:
       - reflect-metadata
 
   '@inversifyjs/common@1.5.0': {}
 
-  '@inversifyjs/container@1.9.1(reflect-metadata@0.2.2)':
+  '@inversifyjs/container@1.10.1(reflect-metadata@0.2.2)':
     dependencies:
       '@inversifyjs/common': 1.5.0
-      '@inversifyjs/core': 5.2.0(reflect-metadata@0.2.2)
+      '@inversifyjs/core': 5.3.1(reflect-metadata@0.2.2)
+      '@inversifyjs/plugin': 0.2.0
       '@inversifyjs/reflect-metadata-utils': 1.1.0(reflect-metadata@0.2.2)
       reflect-metadata: 0.2.2
 
-  '@inversifyjs/core@5.2.0(reflect-metadata@0.2.2)':
+  '@inversifyjs/core@5.3.1(reflect-metadata@0.2.2)':
     dependencies:
       '@inversifyjs/common': 1.5.0
       '@inversifyjs/prototype-utils': 0.1.0
       '@inversifyjs/reflect-metadata-utils': 1.1.0(reflect-metadata@0.2.2)
     transitivePeerDependencies:
       - reflect-metadata
+
+  '@inversifyjs/plugin@0.2.0': {}
 
   '@inversifyjs/prototype-utils@0.1.0':
     dependencies:
@@ -171,11 +183,11 @@ snapshots:
 
   '@types/prop-types@15.7.14': {}
 
-  '@types/react-dom@18.3.7(@types/react@18.3.21)':
+  '@types/react-dom@18.3.7(@types/react@18.3.23)':
     dependencies:
-      '@types/react': 18.3.21
+      '@types/react': 18.3.23
 
-  '@types/react@18.3.21':
+  '@types/react@18.3.23':
     dependencies:
       '@types/prop-types': 15.7.14
       csstype: 3.1.3
@@ -184,11 +196,11 @@ snapshots:
 
   csstype@3.1.3: {}
 
-  inversify@7.5.1(reflect-metadata@0.2.2):
+  inversify@7.5.2(reflect-metadata@0.2.2):
     dependencies:
       '@inversifyjs/common': 1.5.0
-      '@inversifyjs/container': 1.9.1(reflect-metadata@0.2.2)
-      '@inversifyjs/core': 5.2.0(reflect-metadata@0.2.2)
+      '@inversifyjs/container': 1.10.1(reflect-metadata@0.2.2)
+      '@inversifyjs/core': 5.3.1(reflect-metadata@0.2.2)
       reflect-metadata: 0.2.2
 
   react-dom@19.1.0(react@19.1.0):
@@ -196,13 +208,13 @@ snapshots:
       react: 19.1.0
       scheduler: 0.26.0
 
-  react-router-dom@7.6.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
+  react-router-dom@7.6.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
     dependencies:
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
-      react-router: 7.6.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      react-router: 7.6.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
 
-  react-router@7.6.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
+  react-router@7.6.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
     dependencies:
       cookie: 1.0.2
       react: 19.1.0

@@ -72,17 +72,12 @@ import { createBrowserRouter, createHashRouter, createMemoryRouter, Outlet } fro
 import { createContext, createElement, lazy, Suspense, useContext } from 'react';
 import { FallbackNode } from './fallback-node';
 import { LazyService } from './lazy-service';
-var Context = createContext(null);
+var Context = createContext(new Container());
 export function useContainer() {
     return useContext(Context);
 }
-export function useCurrentModule(target) {
-    var _a;
-    return ((_a = useContainer()) === null || _a === void 0 ? void 0 : _a.get(target)) || null;
-}
 export function useService(serviceIdentifier, opts) {
-    var _a;
-    return (_a = useContext(Context)) === null || _a === void 0 ? void 0 : _a.get(serviceIdentifier, opts);
+    return useContext(Context).get(serviceIdentifier, opts);
 }
 var ReactRouter = (function () {
     function ReactRouter(container) {

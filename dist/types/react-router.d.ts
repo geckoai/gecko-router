@@ -21,12 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { Container, Newable } from '@geckoai/gecko-core';
+import { Container } from '@geckoai/gecko-core';
 import { ServiceIdentifier } from "inversify";
 import { OptionalGetOptions } from "@inversifyjs/core";
 export declare function useContainer(): Container;
-export declare function useCurrentModule<T = unknown>(target: Newable<T>): T | null;
-export declare function useService<T>(serviceIdentifier: ServiceIdentifier<any>, opts?: OptionalGetOptions): T | undefined;
+export declare function useService<T>(serviceIdentifier: ServiceIdentifier<any>, opts?: OptionalGetOptions): T;
 export declare class ReactRouter {
     private container;
     static routes: symbol;
