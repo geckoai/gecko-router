@@ -12,8 +12,8 @@ importers:
         specifier: ^1.0.2
         version: 1.0.2
       '@geckoai/gecko-core':
-        specifier: 1.0.1
-        version: 1.0.1(react@19.1.0)(reflect-metadata@0.2.2)(typescript@4.9.5)
+        specifier: 1.0.0
+        version: 1.0.0(reflect-metadata@0.2.2)
       react:
         specifier: ^19.1.0
         version: 19.1.0
@@ -42,11 +42,8 @@ packages:
   '@geckoai/class-mirror@1.0.2':
     resolution: {integrity: sha512-0ShYTH9Ki7ZULP/qqlEcExsL8lyRxqAHJUi8s2F/ONtJYiEYT21ecONUYumCZFAp/TvlEultFrt+vN2KO47gcw==}
 
-  '@geckoai/gecko-core@1.0.1':
-    resolution: {integrity: sha512-Fv1728+wJb0Vf7gvgbp+UFeSmSuGB6N9e0VWaWWzrE1kGFZ9DdPGJ2XN9X7iX9xWZaylRZ5lGp2ytVjoSEwMGg==}
-    peerDependencies:
-      react: '>= 16'
-      typescript: ^3.2.1 || ^4
+  '@geckoai/gecko-core@1.0.0':
+    resolution: {integrity: sha512-IHFBcSLH41cxxI4+eFdb0MHsvuaPq4Zsrq38rA6/9szOSGQ913L6XXNytjUTs7FXJDcBu6nv4LR3KnOWRRSfIQ==}
 
   '@inversifyjs/common@1.5.0':
     resolution: {integrity: sha512-Qj5BELk11AfI2rgZEAaLPmOftmQRLLmoCXgAjmaF0IngQN5vHomVT5ML7DZ3+CA5fgGcEVMcGbUDAun+Rz+oNg==}
@@ -140,13 +137,10 @@ snapshots:
 
   '@geckoai/class-mirror@1.0.2': {}
 
-  '@geckoai/gecko-core@1.0.1(react@19.1.0)(reflect-metadata@0.2.2)(typescript@4.9.5)':
+  '@geckoai/gecko-core@1.0.0(reflect-metadata@0.2.2)':
     dependencies:
       '@geckoai/class-mirror': 1.0.2
       inversify: 7.5.1(reflect-metadata@0.2.2)
-      react: 19.1.0
-      rxjs: 7.8.2
-      typescript: 4.9.5
     transitivePeerDependencies:
       - reflect-metadata
 
