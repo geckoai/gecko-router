@@ -132,7 +132,8 @@ define(["require", "exports", "@geckoai/gecko-core", "@geckoai/class-mirror", ".
                     if (tasks && tasks.length > 1) {
                         var Fallback_1 = mirror.getDecorates(decorators_1.GeckoFallbackDecorate)[0];
                         var laze = function () {
-                            var key = container.get(lazy_service_1.LazyService).asState()[0];
+                            var vm = container.get(lazy_service_1.LazyService).vm;
+                            var key = vm.asState()[0];
                             return (0, react_1.createElement)(react_1.Suspense, {
                                 fallback: Fallback_1 ? (0, react_1.createElement)(Fallback_1.metadata) : (0, react_1.createElement)(fallback_node_1.FallbackNode),
                                 children: (0, react_1.createElement)((0, react_1.lazy)(function () { return __awaiter(_this, void 0, void 0, function () {

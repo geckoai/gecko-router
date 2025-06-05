@@ -1,7 +1,4 @@
+import { ViewModel } from '@geckoai/gecko-core';
 export declare class LazyService {
-    private current;
-    private _vm;
-    constructor();
-    next(): void;
-    asState(): [number, (value: number) => void];
+    vm: ViewModel<number>;
 }

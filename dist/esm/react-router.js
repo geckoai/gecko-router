@@ -74,7 +74,8 @@ let ReactRouter = ReactRouter_1 = class ReactRouter {
                 if (tasks && tasks.length > 1) {
                     const [Fallback] = mirror.getDecorates(GeckoFallbackDecorate);
                     const laze = () => {
-                        const [key] = container.get(LazyService).asState();
+                        const { vm } = container.get(LazyService);
+                        const [key] = vm.asState();
                         return createElement(Suspense, {
                             fallback: Fallback ? createElement(Fallback.metadata) : createElement(FallbackNode),
                             children: createElement(lazy(async () => {
