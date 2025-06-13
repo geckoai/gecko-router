@@ -104,7 +104,7 @@ define(["require", "exports", "@geckoai/class-mirror", "@geckoai/gecko-core", "r
                             (0, react_1.useEffect)(function () {
                                 var _a;
                                 (_a = current_1 === null || current_1 === void 0 ? void 0 : current_1.onMount) === null || _a === void 0 ? void 0 : _a.call(current_1);
-                                return function () { return current_1.onUnmount(); };
+                                return function () { var _a; return (_a = current_1 === null || current_1 === void 0 ? void 0 : current_1.onUnmount) === null || _a === void 0 ? void 0 : _a.call(current_1); };
                             }, []);
                             return (0, react_1.createElement)(Context.Provider, {
                                 value: container,

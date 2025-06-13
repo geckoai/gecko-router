@@ -104,7 +104,7 @@ var RouterService = (function () {
                         useEffect(function () {
                             var _a;
                             (_a = current_1 === null || current_1 === void 0 ? void 0 : current_1.onMount) === null || _a === void 0 ? void 0 : _a.call(current_1);
-                            return function () { return current_1.onUnmount(); };
+                            return function () { var _a; return (_a = current_1 === null || current_1 === void 0 ? void 0 : current_1.onUnmount) === null || _a === void 0 ? void 0 : _a.call(current_1); };
                         }, []);
                         return createElement(Context.Provider, {
                             value: container,

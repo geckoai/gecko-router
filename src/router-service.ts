@@ -125,7 +125,7 @@ export class RouterService {
           element: createElement((() => {
             useEffect(() => {
               current?.onMount?.();
-              return () => current.onUnmount()
+              return () => current?.onUnmount?.()
             }, [])
             return createElement(Context.Provider, {
               value: container,
