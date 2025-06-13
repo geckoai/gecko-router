@@ -4,24 +4,28 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var ReactRouter_1;
 import { ConstantValueProvider, Module } from '@geckoai/gecko-core';
 import { RouterService } from './router-service';
-let ReactRouter = ReactRouter_1 = class ReactRouter {
-    static middleElements = Symbol.for("middleElements");
-    static ErrorBoundary = Symbol.for("ErrorBoundary");
-    static Fallback = Symbol.for("Fallback");
-    static ProvideErrorBoundary(ErrorBoundary) {
+var ReactRouter = (function () {
+    function ReactRouter() {
+    }
+    ReactRouter_1 = ReactRouter;
+    ReactRouter.ProvideErrorBoundary = function (ErrorBoundary) {
         return ConstantValueProvider.create(ReactRouter_1.ErrorBoundary, ErrorBoundary);
-    }
-    static ProvideFallback(Fallback) {
+    };
+    ReactRouter.ProvideFallback = function (Fallback) {
         return ConstantValueProvider.create(ReactRouter_1.Fallback, Fallback);
-    }
-};
-ReactRouter = ReactRouter_1 = __decorate([
-    Module({
-        providers: [RouterService],
-        exports: [RouterService],
-    })
-], ReactRouter);
+    };
+    var ReactRouter_1;
+    ReactRouter.middleElements = Symbol.for("middleElements");
+    ReactRouter.ErrorBoundary = Symbol.for("ErrorBoundary");
+    ReactRouter.Fallback = Symbol.for("Fallback");
+    ReactRouter = ReactRouter_1 = __decorate([
+        Module({
+            providers: [RouterService],
+            exports: [RouterService],
+        })
+    ], ReactRouter);
+    return ReactRouter;
+}());
 export { ReactRouter };
