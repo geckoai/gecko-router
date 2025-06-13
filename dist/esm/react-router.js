@@ -5,7 +5,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { ConstantValueProvider, Module } from '@geckoai/gecko-core';
-import { RouterService } from './router-service';
+import { RouterService, useContainer } from './router-service';
+import React, { createElement } from "react";
 var ReactRouter = (function () {
     function ReactRouter() {
     }
@@ -15,6 +16,20 @@ var ReactRouter = (function () {
     };
     ReactRouter.ProvideFallback = function (Fallback) {
         return ConstantValueProvider.create(ReactRouter_1.Fallback, Fallback);
+    };
+    ReactRouter.lazy = function (load) {
+        return (function () {
+            return createElement(function () {
+                var container = useContainer();
+                var isBoundFallback = container.isBound(ReactRouter_1.Fallback);
+                return createElement(React.Suspense, {
+                    fallback: isBoundFallback ? createElement(container.get(ReactRouter_1.Fallback)) : createElement('div', {
+                        children: "Loading..."
+                    }),
+                    children: createElement(React.lazy(load))
+                });
+            });
+        });
     };
     var ReactRouter_1;
     ReactRouter.middleElements = Symbol.for("middleElements");

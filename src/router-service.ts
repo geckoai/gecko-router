@@ -38,7 +38,7 @@ import {
 import type {OptionalGetOptions, ServiceIdentifier} from 'inversify';
 import {createBrowserRouter, createHashRouter, Outlet, RouteObject} from "react-router-dom";
 import {
-  GeckoBrowserRouterDecorate,
+  GeckoBrowserRouterDecorate, GeckoErrorBoundaryDecorate, GeckoFallbackDecorate,
   GeckoHashRouterDecorate,
   GeckoMemoryRouterDecorate,
   GeckoRouteDecorate,
@@ -98,18 +98,30 @@ export class RouterService {
       const childrenContainers = container.get<Container[]>(Constants.children);
       const mirror = container.get(ClassMirror);
       const routes = mirror.getDecorates(GeckoRouteDecorate);
+      const fallbacks = mirror.getDecorates(GeckoFallbackDecorate);
+      const errorBoundarys = mirror.getDecorates(GeckoErrorBoundaryDecorate);
+
+      if (!container.isBound(ReactRouter.ErrorBoundary) && errorBoundarys[0]) {
+        container.bind(ReactRouter.ErrorBoundary).toConstantValue(errorBoundarys[0].metadata)
+      }
+
+      if (!container.isBound(ReactRouter.ErrorBoundary) && fallbacks[0]) {
+        container.bind(ReactRouter.Fallback).toConstantValue(fallbacks[0].metadata)
+      }
+
       if (routes && routes.length > 1) {
         console.warn('There are multiple @Route decorators, and only the latest one will be selected for execution during runtime.');
       }
       const [RouteDecorate] = routes;
       if (RouteDecorate?.metadata) {
-        const {children, Component, ...rest} = RouteDecorate.metadata;
+        const {children, Component, ErrorBoundary, ...rest} = RouteDecorate.metadata;
         const list = children ? children.concat(this.getRoutes(childrenContainers)) : this.getRoutes(childrenContainers);
         const current = container.get<RouteModuleLifeCycle>(Constants.instance);
         current?.onInit?.();
 
         return {
           ...rest,
+          ErrorBoundary: ErrorBoundary ?? (container.isBound(ReactRouter.ErrorBoundary) ? container.get(ReactRouter.ErrorBoundary) : undefined),
           element: createElement((() => {
             useEffect(() => {
               current?.onMount?.();

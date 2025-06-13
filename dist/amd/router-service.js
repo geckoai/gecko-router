@@ -83,16 +83,24 @@ define(["require", "exports", "@geckoai/class-mirror", "@geckoai/gecko-core", "r
                 var childrenContainers = container.get(gecko_core_1.Constants.children);
                 var mirror = container.get(class_mirror_1.ClassMirror);
                 var routes = mirror.getDecorates(decorators_1.GeckoRouteDecorate);
+                var fallbacks = mirror.getDecorates(decorators_1.GeckoFallbackDecorate);
+                var errorBoundarys = mirror.getDecorates(decorators_1.GeckoErrorBoundaryDecorate);
+                if (!container.isBound(react_router_1.ReactRouter.ErrorBoundary) && errorBoundarys[0]) {
+                    container.bind(react_router_1.ReactRouter.ErrorBoundary).toConstantValue(errorBoundarys[0].metadata);
+                }
+                if (!container.isBound(react_router_1.ReactRouter.ErrorBoundary) && fallbacks[0]) {
+                    container.bind(react_router_1.ReactRouter.Fallback).toConstantValue(fallbacks[0].metadata);
+                }
                 if (routes && routes.length > 1) {
                     console.warn('There are multiple @Route decorators, and only the latest one will be selected for execution during runtime.');
                 }
                 var RouteDecorate = routes[0];
                 if (RouteDecorate === null || RouteDecorate === void 0 ? void 0 : RouteDecorate.metadata) {
-                    var _b = RouteDecorate.metadata, children = _b.children, Component_1 = _b.Component, rest = __rest(_b, ["children", "Component"]);
+                    var _b = RouteDecorate.metadata, children = _b.children, Component_1 = _b.Component, ErrorBoundary = _b.ErrorBoundary, rest = __rest(_b, ["children", "Component", "ErrorBoundary"]);
                     var list = children ? children.concat(_this.getRoutes(childrenContainers)) : _this.getRoutes(childrenContainers);
                     var current_1 = container.get(gecko_core_1.Constants.instance);
                     (_a = current_1 === null || current_1 === void 0 ? void 0 : current_1.onInit) === null || _a === void 0 ? void 0 : _a.call(current_1);
-                    return __assign(__assign({}, rest), { element: (0, react_1.createElement)((function () {
+                    return __assign(__assign({}, rest), { ErrorBoundary: ErrorBoundary !== null && ErrorBoundary !== void 0 ? ErrorBoundary : (container.isBound(react_router_1.ReactRouter.ErrorBoundary) ? container.get(react_router_1.ReactRouter.ErrorBoundary) : undefined), element: (0, react_1.createElement)((function () {
                             (0, react_1.useEffect)(function () {
                                 var _a;
                                 (_a = current_1 === null || current_1 === void 0 ? void 0 : current_1.onMount) === null || _a === void 0 ? void 0 : _a.call(current_1);

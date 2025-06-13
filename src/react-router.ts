@@ -23,8 +23,8 @@
  */
 
 import {ConstantValueProvider, Module} from '@geckoai/gecko-core';
-import {RouterService} from './router-service';
-import {ComponentType} from "react";
+import {RouterService, useContainer} from './router-service';
+import React, {ComponentType, createElement} from "react";
 
 
 /**
@@ -66,5 +66,27 @@ export class ReactRouter {
    */
   public static ProvideFallback(Fallback: ComponentType) {
     return ConstantValueProvider.create(ReactRouter.Fallback, Fallback)
+  }
+
+  /**
+   * Create a lazy component.
+   * The method `lazy` included `React.Suspense`, You don't need to use it.
+   * @param load
+   */
+  public static lazy(
+    load: () => Promise<{ default: ComponentType<any> }>,
+  ): ComponentType<any> {
+    return (() => {
+      return createElement(() => {
+        const container = useContainer();
+        const isBoundFallback = container.isBound(ReactRouter.Fallback);
+        return createElement(React.Suspense, {
+          fallback: isBoundFallback ? createElement(container.get(ReactRouter.Fallback)) : createElement('div', {
+            children: "Loading..."
+          }),
+          children: createElement(React.lazy(load))
+        })
+      })
+    }) as ComponentType<any>;
   }
 }

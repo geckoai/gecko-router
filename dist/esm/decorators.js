@@ -63,6 +63,14 @@ var GeckoFallbackDecorate = (function (_super) {
     return GeckoFallbackDecorate;
 }(ClassDecorate));
 export { GeckoFallbackDecorate };
+var GeckoErrorBoundaryDecorate = (function (_super) {
+    __extends(GeckoErrorBoundaryDecorate, _super);
+    function GeckoErrorBoundaryDecorate() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return GeckoErrorBoundaryDecorate;
+}(ClassDecorate));
+export { GeckoErrorBoundaryDecorate };
 export function Route(arg) {
     switch (typeof arg) {
         case 'function':
@@ -75,6 +83,9 @@ export function Route(arg) {
 }
 export function Fallback(component) {
     return ClassMirror.createDecorator(new GeckoFallbackDecorate(component));
+}
+export function ErrorBoundary(component) {
+    return ClassMirror.createDecorator(new GeckoErrorBoundaryDecorate(component));
 }
 export function BrowserRouter(ops) {
     if (typeof ops === 'function') {

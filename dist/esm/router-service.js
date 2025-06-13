@@ -33,7 +33,7 @@ import { ClassMirror } from "@geckoai/class-mirror";
 import { Constants, Container, injectable } from "@geckoai/gecko-core";
 import { createContext, createElement, useContext, useEffect, useRef } from "react";
 import { createBrowserRouter, createHashRouter, Outlet } from "react-router-dom";
-import { GeckoBrowserRouterDecorate, GeckoHashRouterDecorate, GeckoMemoryRouterDecorate, GeckoRouteDecorate, GeckoRouterDecorate } from "./decorators";
+import { GeckoBrowserRouterDecorate, GeckoErrorBoundaryDecorate, GeckoFallbackDecorate, GeckoHashRouterDecorate, GeckoMemoryRouterDecorate, GeckoRouteDecorate, GeckoRouterDecorate } from "./decorators";
 import { ReactRouter } from "./react-router";
 var Context = createContext(new Container());
 export function useContainer() {
@@ -83,16 +83,24 @@ var RouterService = (function () {
             var childrenContainers = container.get(Constants.children);
             var mirror = container.get(ClassMirror);
             var routes = mirror.getDecorates(GeckoRouteDecorate);
+            var fallbacks = mirror.getDecorates(GeckoFallbackDecorate);
+            var errorBoundarys = mirror.getDecorates(GeckoErrorBoundaryDecorate);
+            if (!container.isBound(ReactRouter.ErrorBoundary) && errorBoundarys[0]) {
+                container.bind(ReactRouter.ErrorBoundary).toConstantValue(errorBoundarys[0].metadata);
+            }
+            if (!container.isBound(ReactRouter.ErrorBoundary) && fallbacks[0]) {
+                container.bind(ReactRouter.Fallback).toConstantValue(fallbacks[0].metadata);
+            }
             if (routes && routes.length > 1) {
                 console.warn('There are multiple @Route decorators, and only the latest one will be selected for execution during runtime.');
             }
             var RouteDecorate = routes[0];
             if (RouteDecorate === null || RouteDecorate === void 0 ? void 0 : RouteDecorate.metadata) {
-                var _b = RouteDecorate.metadata, children = _b.children, Component_1 = _b.Component, rest = __rest(_b, ["children", "Component"]);
+                var _b = RouteDecorate.metadata, children = _b.children, Component_1 = _b.Component, ErrorBoundary = _b.ErrorBoundary, rest = __rest(_b, ["children", "Component", "ErrorBoundary"]);
                 var list = children ? children.concat(_this.getRoutes(childrenContainers)) : _this.getRoutes(childrenContainers);
                 var current_1 = container.get(Constants.instance);
                 (_a = current_1 === null || current_1 === void 0 ? void 0 : current_1.onInit) === null || _a === void 0 ? void 0 : _a.call(current_1);
-                return __assign(__assign({}, rest), { element: createElement((function () {
+                return __assign(__assign({}, rest), { ErrorBoundary: ErrorBoundary !== null && ErrorBoundary !== void 0 ? ErrorBoundary : (container.isBound(ReactRouter.ErrorBoundary) ? container.get(ReactRouter.ErrorBoundary) : undefined), element: createElement((function () {
                         useEffect(function () {
                             var _a;
                             (_a = current_1 === null || current_1 === void 0 ? void 0 : current_1.onMount) === null || _a === void 0 ? void 0 : _a.call(current_1);

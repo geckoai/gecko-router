@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 import { ConstantValueProvider } from '@geckoai/gecko-core';
-import { ComponentType } from "react";
+import React, { ComponentType } from "react";
 /**
  * `ReactRouter` module
  */
@@ -44,11 +44,19 @@ export declare class ReactRouter {
      * @param ErrorBoundary
      * @constructor
      */
-    static ProvideErrorBoundary(ErrorBoundary: ComponentType): ConstantValueProvider<ComponentType<{}>>;
+    static ProvideErrorBoundary(ErrorBoundary: ComponentType): ConstantValueProvider<React.ComponentType<{}>>;
     /**
      * Provide `Fallback` Element
      * @param Fallback
      * @constructor
      */
-    static ProvideFallback(Fallback: ComponentType): ConstantValueProvider<ComponentType<{}>>;
+    static ProvideFallback(Fallback: ComponentType): ConstantValueProvider<React.ComponentType<{}>>;
+    /**
+     * Create a lazy component.
+     * The method `lazy` included `React.Suspense`, You don't need to use it.
+     * @param load
+     */
+    static lazy(load: () => Promise<{
+        default: ComponentType<any>;
+    }>): ComponentType<any>;
 }

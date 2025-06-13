@@ -33,7 +33,8 @@ export class GeckoRouterDecorate<T> extends ClassDecorate<T> {}
 export class GeckoHashRouterDecorate extends GeckoRouterDecorate<DOMRouterOpts | undefined> {}
 export class GeckoBrowserRouterDecorate extends GeckoRouterDecorate<DOMRouterOpts | undefined> {}
 export class GeckoMemoryRouterDecorate extends GeckoRouterDecorate<DOMRouterOpts | undefined> {}
-export class GeckoFallbackDecorate extends ClassDecorate<ComponentType> {}
+export class GeckoFallbackDecorate extends ClassDecorate<ComponentType<any>> {}
+export class GeckoErrorBoundaryDecorate extends ClassDecorate<ComponentType<any>> {}
 
 
 /**
@@ -68,6 +69,16 @@ export function Route<TFunction extends Function>(arg: Omit<RouteObject, 'elemen
  */
 export function Fallback(component: ComponentType<any>) {
   return ClassMirror.createDecorator(new GeckoFallbackDecorate(component));
+}
+
+
+/**
+ * Decorator metadata react `RouteObject` prop of `ErrorBoundary` element.
+ * @param component
+ * @constructor
+ */
+export function ErrorBoundary(component: ComponentType<any>) {
+  return ClassMirror.createDecorator(new GeckoErrorBoundaryDecorate(component));
 }
 
 

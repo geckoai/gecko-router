@@ -35,7 +35,9 @@ export declare class GeckoBrowserRouterDecorate extends GeckoRouterDecorate<DOMR
 }
 export declare class GeckoMemoryRouterDecorate extends GeckoRouterDecorate<DOMRouterOpts | undefined> {
 }
-export declare class GeckoFallbackDecorate extends ClassDecorate<ComponentType> {
+export declare class GeckoFallbackDecorate extends ClassDecorate<ComponentType<any>> {
+}
+export declare class GeckoErrorBoundaryDecorate extends ClassDecorate<ComponentType<any>> {
 }
 /**
  * Decorator metadata for react-router route `RouteObject`
@@ -51,6 +53,12 @@ export declare function Route(route: Omit<RouteObject, 'element'>): ClassDecorat
  * @constructor
  */
 export declare function Fallback(component: ComponentType<any>): ClassDecorator;
+/**
+ * Decorator metadata react `RouteObject` prop of `ErrorBoundary` element.
+ * @param component
+ * @constructor
+ */
+export declare function ErrorBoundary(component: ComponentType<any>): ClassDecorator;
 /**
  * Decorator metadata for react-router mode `BrowserRouter`.
  * @param target

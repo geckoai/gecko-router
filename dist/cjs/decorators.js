@@ -15,7 +15,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MemoryRouter = exports.HashRouter = exports.BrowserRouter = exports.Fallback = exports.Route = exports.GeckoFallbackDecorate = exports.GeckoMemoryRouterDecorate = exports.GeckoBrowserRouterDecorate = exports.GeckoHashRouterDecorate = exports.GeckoRouterDecorate = exports.GeckoRouteDecorate = void 0;
+exports.MemoryRouter = exports.HashRouter = exports.BrowserRouter = exports.ErrorBoundary = exports.Fallback = exports.Route = exports.GeckoErrorBoundaryDecorate = exports.GeckoFallbackDecorate = exports.GeckoMemoryRouterDecorate = exports.GeckoBrowserRouterDecorate = exports.GeckoHashRouterDecorate = exports.GeckoRouterDecorate = exports.GeckoRouteDecorate = void 0;
 var class_mirror_1 = require("@geckoai/class-mirror");
 var gecko_core_1 = require("@geckoai/gecko-core");
 var GeckoRouteDecorate = (function (_super) {
@@ -66,6 +66,14 @@ var GeckoFallbackDecorate = (function (_super) {
     return GeckoFallbackDecorate;
 }(class_mirror_1.ClassDecorate));
 exports.GeckoFallbackDecorate = GeckoFallbackDecorate;
+var GeckoErrorBoundaryDecorate = (function (_super) {
+    __extends(GeckoErrorBoundaryDecorate, _super);
+    function GeckoErrorBoundaryDecorate() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return GeckoErrorBoundaryDecorate;
+}(class_mirror_1.ClassDecorate));
+exports.GeckoErrorBoundaryDecorate = GeckoErrorBoundaryDecorate;
 function Route(arg) {
     switch (typeof arg) {
         case 'function':
@@ -81,6 +89,10 @@ function Fallback(component) {
     return class_mirror_1.ClassMirror.createDecorator(new GeckoFallbackDecorate(component));
 }
 exports.Fallback = Fallback;
+function ErrorBoundary(component) {
+    return class_mirror_1.ClassMirror.createDecorator(new GeckoErrorBoundaryDecorate(component));
+}
+exports.ErrorBoundary = ErrorBoundary;
 function BrowserRouter(ops) {
     if (typeof ops === 'function') {
         return class_mirror_1.ClassMirror.createDecorator(new GeckoBrowserRouterDecorate(undefined))(ops);
