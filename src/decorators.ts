@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2021 @geckoai/gecko-platform-browser RanYunLong<549510622@qq.com>
+ * Copyright (c) 2021 @geckoai/platform-react RanYunLong<549510622@qq.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,29 +24,23 @@
 
 import { ClassDecorate, ClassMirror } from '@geckoai/class-mirror';
 import { RouteObject } from 'react-router-dom';
-import { ApplyClassDecorators, Container } from '@geckoai/gecko-core';
+import { ApplyClassDecorators } from '@geckoai/gecko-core';
 import { DOMRouterOpts } from 'react-router';
 import { ComponentType } from 'react';
 
-export class GeckoLazyTaskDecorate extends ClassDecorate<(container: Container) => Promise<void>> {}
-
-export class GeckoRouteDecorate extends ClassDecorate<Omit<RouteObject, 'element'>> {
-}
-
+export class GeckoRouteDecorate extends ClassDecorate<Omit<RouteObject, 'element'>> {}
 export class GeckoRouterDecorate<T> extends ClassDecorate<T> {}
-
-export class GeckoHashRouterDecorate extends GeckoRouterDecorate<DOMRouterOpts | undefined> {
-}
-
-export class GeckoBrowserRouterDecorate extends GeckoRouterDecorate<DOMRouterOpts | undefined> {
-}
-
-export class GeckoMemoryRouterDecorate extends GeckoRouterDecorate<DOMRouterOpts | undefined> {
-}
-
+export class GeckoHashRouterDecorate extends GeckoRouterDecorate<DOMRouterOpts | undefined> {}
+export class GeckoBrowserRouterDecorate extends GeckoRouterDecorate<DOMRouterOpts | undefined> {}
+export class GeckoMemoryRouterDecorate extends GeckoRouterDecorate<DOMRouterOpts | undefined> {}
 export class GeckoFallbackDecorate extends ClassDecorate<ComponentType> {}
 
 
+/**
+ * Decorator metadata for react-router route `RouteObject`
+ * @param target
+ * @constructor
+ */
 export function Route<TFunction extends Function>(target: TFunction): TFunction | void;
 export function Route(path: string): ClassDecorator;
 export function Route(route: Omit<RouteObject, 'element'>): ClassDecorator;
@@ -67,10 +61,21 @@ export function Route<TFunction extends Function>(arg: Omit<RouteObject, 'elemen
   }
 }
 
+/**
+ * Decorator metadata for React.Suspense `fallback` element.
+ * @param component
+ * @constructor
+ */
 export function Fallback(component: ComponentType<any>) {
   return ClassMirror.createDecorator(new GeckoFallbackDecorate(component));
 }
 
+
+/**
+ * Decorator metadata for react-router mode `BrowserRouter`.
+ * @param target
+ * @constructor
+ */
 export function BrowserRouter<TFunction extends Function>(target: TFunction): TFunction | void;
 export function BrowserRouter(ops?: DOMRouterOpts): ClassDecorator;
 export function BrowserRouter<TFunction extends Function>(ops?: DOMRouterOpts | TFunction): ClassDecorator | (TFunction | void) {
@@ -82,6 +87,12 @@ export function BrowserRouter<TFunction extends Function>(ops?: DOMRouterOpts | 
   );
 }
 
+
+/**
+ * Decorator metadata for react-router mode `HashRouter`.
+ * @param target
+ * @constructor
+ */
 export function HashRouter<TFunction extends Function>(target: TFunction): TFunction | void;
 export function HashRouter(ops?: DOMRouterOpts): ClassDecorator;
 export function HashRouter<TFunction extends Function>(ops?: DOMRouterOpts | TFunction): ClassDecorator | (TFunction | void) {
@@ -93,6 +104,12 @@ export function HashRouter<TFunction extends Function>(ops?: DOMRouterOpts | TFu
   );
 }
 
+
+/**
+ * Decorator metadata for react-router mode `MemoryRouter`.
+ * @param target
+ * @constructor
+ */
 export function MemoryRouter<TFunction extends Function>(target: TFunction): TFunction | void;
 export function MemoryRouter(ops?: DOMRouterOpts): ClassDecorator;
 export function MemoryRouter<TFunction extends Function>(ops?: DOMRouterOpts | TFunction): ClassDecorator | (TFunction | void) {

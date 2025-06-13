@@ -23,11 +23,21 @@
  */
 
 
-import { RouterProviderProps } from 'react-router-dom'
+/**
+ * `Route` module for react lifecycle
+ */
+export abstract class RouteModuleLifeCycle {
+  /**
+   * 初始化
+   */
+  public onInit(): void {}
+  /**
+   * 挂载
+   */
+  public onMount(): void {}
 
-export type Router = RouterProviderProps['router']
-export * from './decorators'
-export * from './react-router'
-export * from './view-model'
-export * from './router-service'
-export * from './route-module-life-cycle'
+  /**
+   * 销毁
+   */
+  public onUnmount(): void {}
+}
