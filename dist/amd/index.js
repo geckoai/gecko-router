@@ -12,11 +12,12 @@ var __createBinding = (this && this.__createBinding) || (Object.create ? (functi
 var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
-define(["require", "exports", "./decorators", "./react-router", "./fallback-node", "./lazy-service"], function (require, exports, decorators_1, react_router_1, fallback_node_1, lazy_service_1) {
+define(["require", "exports", "./decorators", "./react-router", "./view-model", "./router-service", "./route-module-life-cycle"], function (require, exports, decorators_1, react_router_1, view_model_1, router_service_1, route_module_life_cycle_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     __exportStar(decorators_1, exports);
     __exportStar(react_router_1, exports);
-    __exportStar(fallback_node_1, exports);
-    __exportStar(lazy_service_1, exports);
+    __exportStar(view_model_1, exports);
+    __exportStar(router_service_1, exports);
+    __exportStar(route_module_life_cycle_1, exports);
 });

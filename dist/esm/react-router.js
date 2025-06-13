@@ -4,100 +4,24 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
 var ReactRouter_1;
-import { Constants, Container, GeckoModule } from '@geckoai/gecko-core';
-import { ClassMirror } from '@geckoai/class-mirror';
-import { GeckoBrowserRouterDecorate, GeckoFallbackDecorate, GeckoHashRouterDecorate, GeckoLazyTaskDecorate, GeckoMemoryRouterDecorate, GeckoRouteDecorate, GeckoRouterDecorate } from './decorators';
-import { createBrowserRouter, createHashRouter, createMemoryRouter, Outlet } from 'react-router-dom';
-import { createContext, createElement, lazy, Suspense, useContext } from 'react';
-import { FallbackNode } from './fallback-node';
-import { LazyService } from './lazy-service';
-const Context = createContext(new Container());
-export function useContainer() {
-    return useContext(Context);
-}
-export function useService(serviceIdentifier, opts) {
-    return useContext(Context).get(serviceIdentifier, opts);
-}
+import { ConstantValueProvider, Module } from '@geckoai/gecko-core';
+import { RouterService } from './router-service';
 let ReactRouter = ReactRouter_1 = class ReactRouter {
-    container;
-    static routes = Symbol.for('provider');
-    static options = Symbol.for('options');
-    static Router = Symbol.for('Router');
-    constructor(container) {
-        this.container = container;
-        const mirror = container.get(ClassMirror);
-        const decorates = mirror.getDecorates(GeckoRouterDecorate);
-        const decorate = decorates[0];
-        const containers = container.get(Constants.children);
-        const routes = ReactRouter_1.getRoutes(containers);
-        const parent = container.get(Constants.parent);
-        parent?.bind(ReactRouter_1.routes).toConstantValue(routes);
-        parent?.bind(ReactRouter_1.options).toConstantValue(decorate?.metadata);
-        if (decorate instanceof GeckoBrowserRouterDecorate) {
-            const router = createBrowserRouter(routes, decorate.metadata);
-            parent?.bind(ReactRouter_1.Router).toConstantValue(router);
-        }
-        if (decorate instanceof GeckoHashRouterDecorate) {
-            const router = createHashRouter(routes, decorate.metadata);
-            parent?.bind(ReactRouter_1.Router).toConstantValue(router);
-        }
-        if (decorate instanceof GeckoMemoryRouterDecorate) {
-            const router = createMemoryRouter(routes, decorate.metadata);
-            parent?.bind(ReactRouter_1.Router).toConstantValue(router);
-        }
+    static middleElements = Symbol.for("middleElements");
+    static ErrorBoundary = Symbol.for("ErrorBoundary");
+    static Fallback = Symbol.for("Fallback");
+    static ProvideErrorBoundary(ErrorBoundary) {
+        return ConstantValueProvider.create(ReactRouter_1.ErrorBoundary, ErrorBoundary);
     }
-    static getRoutes(containers = []) {
-        return containers.map(container => {
-            const childrenContainers = container.get(Constants.children);
-            const mirror = container.get(ClassMirror);
-            const routes = mirror.getDecorates(GeckoRouteDecorate);
-            const tasks = mirror.getDecorates(GeckoLazyTaskDecorate);
-            container.bind(LazyService).to(LazyService).inSingletonScope();
-            if (routes && routes.length > 1) {
-                console.warn('There are multiple @Route decorators, and only the latest one will be selected for execution during runtime.');
-            }
-            const [RouteDecorate] = routes;
-            if (RouteDecorate?.metadata) {
-                const { children, Component, ...rest } = RouteDecorate.metadata;
-                const list = children ? children.concat(this.getRoutes(childrenContainers)) : this.getRoutes(childrenContainers);
-                let element = createElement(Context.Provider, {
-                    value: container,
-                    children: Component ? createElement(Component) : createElement(Outlet)
-                });
-                if (tasks && tasks.length > 1) {
-                    const [Fallback] = mirror.getDecorates(GeckoFallbackDecorate);
-                    const laze = () => {
-                        const { vm } = container.get(LazyService);
-                        const [key] = vm.asState();
-                        return createElement(Suspense, {
-                            fallback: Fallback ? createElement(Fallback.metadata) : createElement(FallbackNode),
-                            children: createElement(lazy(async () => {
-                                await Promise.all(tasks.map(x => x.metadata(container)));
-                                return { default: Component ?? Outlet };
-                            }), { key })
-                        });
-                    };
-                    element = createElement(Context.Provider, {
-                        value: container,
-                        children: createElement(laze)
-                    });
-                }
-                return {
-                    ...rest,
-                    element,
-                    children: list.length > 0 ? list : undefined
-                };
-            }
-            return null;
-        }).filter(Boolean);
+    static ProvideFallback(Fallback) {
+        return ConstantValueProvider.create(ReactRouter_1.Fallback, Fallback);
     }
 };
 ReactRouter = ReactRouter_1 = __decorate([
-    GeckoModule,
-    __metadata("design:paramtypes", [Container])
+    Module({
+        providers: [RouterService],
+        exports: [RouterService],
+    })
 ], ReactRouter);
 export { ReactRouter };

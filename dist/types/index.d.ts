@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2021 @geckoai/gecko-platform-browser RanYunLong<549510622@qq.com>
+ * Copyright (c) 2021 @geckoai/platform-react RanYunLong<549510622@qq.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+import { RouterProviderProps } from 'react-router-dom';
+export type Router = RouterProviderProps['router'];
 export * from './decorators';
 export * from './react-router';
-export * from './fallback-node';
-export * from './lazy-service';
+export * from './view-model';
+export * from './router-service';
+export * from './route-module-life-cycle';

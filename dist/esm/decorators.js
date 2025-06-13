@@ -1,7 +1,5 @@
 import { ClassDecorate, ClassMirror } from '@geckoai/class-mirror';
 import { ApplyClassDecorators } from '@geckoai/gecko-core';
-export class GeckoLazyTaskDecorate extends ClassDecorate {
-}
 export class GeckoRouteDecorate extends ClassDecorate {
 }
 export class GeckoRouterDecorate extends ClassDecorate {

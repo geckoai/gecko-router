@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2021 @geckoai/gecko-platform-browser RanYunLong<549510622@qq.com>
+ * Copyright (c) 2021 @geckoai/platform-react RanYunLong<549510622@qq.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,16 +21,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { Container } from '@geckoai/gecko-core';
-import { ServiceIdentifier } from "inversify";
-import { OptionalGetOptions } from "@inversifyjs/core";
-export declare function useContainer(): Container;
-export declare function useService<T>(serviceIdentifier: ServiceIdentifier<any>, opts?: OptionalGetOptions): T;
+import { ConstantValueProvider } from '@geckoai/gecko-core';
+import { ComponentType } from "react";
+/**
+ * `ReactRouter` module
+ */
 export declare class ReactRouter {
-    private container;
-    static routes: symbol;
-    static options: symbol;
-    static Router: symbol;
-    constructor(container: Container);
-    private static getRoutes;
+    /**
+     * ServiceIdentifier for route middle elements.
+     */
+    static middleElements: symbol;
+    /**
+     * ServiceIdentifier for `ErrorBoundary` element.
+     */
+    static ErrorBoundary: symbol;
+    /**
+     * ServiceIdentifier for `Fallback` element.
+     */
+    static Fallback: symbol;
+    /**
+     * Provide `ErrorBoundary` Element
+     * @param ErrorBoundary
+     * @constructor
+     */
+    static ProvideErrorBoundary(ErrorBoundary: ComponentType): ConstantValueProvider<ComponentType<{}>>;
+    /**
+     * Provide `Fallback` Element
+     * @param Fallback
+     * @constructor
+     */
+    static ProvideFallback(Fallback: ComponentType): ConstantValueProvider<ComponentType<{}>>;
 }

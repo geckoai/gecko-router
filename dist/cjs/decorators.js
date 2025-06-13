@@ -15,14 +15,6 @@ var __extends = (this && this.__extends) || (function () {
 })();
 import { ClassDecorate, ClassMirror } from '@geckoai/class-mirror';
 import { ApplyClassDecorators } from '@geckoai/gecko-core';
-var GeckoLazyTaskDecorate = (function (_super) {
-    __extends(GeckoLazyTaskDecorate, _super);
-    function GeckoLazyTaskDecorate() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    return GeckoLazyTaskDecorate;
-}(ClassDecorate));
-export { GeckoLazyTaskDecorate };
 var GeckoRouteDecorate = (function (_super) {
     __extends(GeckoRouteDecorate, _super);
     function GeckoRouteDecorate() {

@@ -16,15 +16,7 @@ var __extends = (this && this.__extends) || (function () {
 define(["require", "exports", "@geckoai/class-mirror", "@geckoai/gecko-core"], function (require, exports, class_mirror_1, gecko_core_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.MemoryRouter = exports.HashRouter = exports.BrowserRouter = exports.Fallback = exports.Route = exports.GeckoFallbackDecorate = exports.GeckoMemoryRouterDecorate = exports.GeckoBrowserRouterDecorate = exports.GeckoHashRouterDecorate = exports.GeckoRouterDecorate = exports.GeckoRouteDecorate = exports.GeckoLazyTaskDecorate = void 0;
-    var GeckoLazyTaskDecorate = (function (_super) {
-        __extends(GeckoLazyTaskDecorate, _super);
-        function GeckoLazyTaskDecorate() {
-            return _super !== null && _super.apply(this, arguments) || this;
-        }
-        return GeckoLazyTaskDecorate;
-    }(class_mirror_1.ClassDecorate));
-    exports.GeckoLazyTaskDecorate = GeckoLazyTaskDecorate;
+    exports.MemoryRouter = exports.HashRouter = exports.BrowserRouter = exports.Fallback = exports.Route = exports.GeckoFallbackDecorate = exports.GeckoMemoryRouterDecorate = exports.GeckoBrowserRouterDecorate = exports.GeckoHashRouterDecorate = exports.GeckoRouterDecorate = exports.GeckoRouteDecorate = void 0;
     var GeckoRouteDecorate = (function (_super) {
         __extends(GeckoRouteDecorate, _super);
         function GeckoRouteDecorate() {
