@@ -21,6 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+import { Container } from "@geckoai/gecko-core";
 /**
  * `Route` module for react lifecycle
  */
@@ -28,13 +29,13 @@ export declare abstract class RouteModuleLifeCycle {
     /**
      * 初始化
      */
-    onInit(): void;
+    onInit?(container?: Container): void;
     /**
      * 挂载
      */
-    onMount(): void;
+    onMount?(container?: Container): void;
     /**
      * 销毁
      */
-    onUnmount(): void;
+    onUnmount?(container?: Container): void;
 }

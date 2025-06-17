@@ -28,7 +28,6 @@ export declare function useService<T>(serviceIdentifier: ServiceIdentifier<any>,
 export declare class RouterService {
     private container;
     constructor(container: Container);
-    private static middleElements;
     private static toElement;
     private static getRoutes;
     getRouter(): import("react-router/dist/development/register-DCE0tH5m").d;

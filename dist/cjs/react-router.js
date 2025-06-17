@@ -59,8 +59,10 @@ var ReactRouter = (function () {
     };
     var ReactRouter_1;
     ReactRouter.middleElements = Symbol.for("middleElements");
+    ReactRouter.middleElement = Symbol.for("middleElement");
     ReactRouter.ErrorBoundary = Symbol.for("ErrorBoundary");
     ReactRouter.Fallback = Symbol.for("Fallback");
+    ReactRouter.Route = Symbol.for("Route");
     ReactRouter = ReactRouter_1 = __decorate([
         (0, gecko_core_1.Module)({
             providers: [router_service_1.RouterService],

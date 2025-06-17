@@ -62,14 +62,6 @@ var RouterService = (function () {
         this.container = container;
     }
     RouterService_1 = RouterService;
-    RouterService.middleElements = function (container) {
-        try {
-            return container.get(ReactRouter.middleElements);
-        }
-        catch (_a) {
-            return [];
-        }
-    };
     RouterService.toElement = function (elements, children) {
         return elements.reverse().reduce(function (c, a) {
             return createElement(a, { children: c });
@@ -99,18 +91,26 @@ var RouterService = (function () {
                 var _b = RouteDecorate.metadata, children = _b.children, Component_1 = _b.Component, ErrorBoundary = _b.ErrorBoundary, rest = __rest(_b, ["children", "Component", "ErrorBoundary"]);
                 var list = children ? children.concat(_this.getRoutes(childrenContainers)) : _this.getRoutes(childrenContainers);
                 var current_1 = container.get(Constants.instance);
-                (_a = current_1 === null || current_1 === void 0 ? void 0 : current_1.onInit) === null || _a === void 0 ? void 0 : _a.call(current_1);
-                return __assign(__assign({}, rest), { ErrorBoundary: ErrorBoundary !== null && ErrorBoundary !== void 0 ? ErrorBoundary : (container.isBound(ReactRouter.ErrorBoundary) ? container.get(ReactRouter.ErrorBoundary) : undefined), element: createElement((function () {
+                (_a = current_1 === null || current_1 === void 0 ? void 0 : current_1.onInit) === null || _a === void 0 ? void 0 : _a.call(current_1, container);
+                var FunctionComponent_1 = container.get(ReactRouter.middleElement);
+                var route = __assign(__assign({}, rest), { ErrorBoundary: ErrorBoundary !== null && ErrorBoundary !== void 0 ? ErrorBoundary : (container.isBound(ReactRouter.ErrorBoundary) ? container.get(ReactRouter.ErrorBoundary) : undefined), element: createElement((function () {
                         useEffect(function () {
                             var _a;
-                            (_a = current_1 === null || current_1 === void 0 ? void 0 : current_1.onMount) === null || _a === void 0 ? void 0 : _a.call(current_1);
-                            return function () { var _a; return (_a = current_1 === null || current_1 === void 0 ? void 0 : current_1.onUnmount) === null || _a === void 0 ? void 0 : _a.call(current_1); };
+                            (_a = current_1 === null || current_1 === void 0 ? void 0 : current_1.onMount) === null || _a === void 0 ? void 0 : _a.call(current_1, container);
+                            return function () { var _a; return (_a = current_1 === null || current_1 === void 0 ? void 0 : current_1.onUnmount) === null || _a === void 0 ? void 0 : _a.call(current_1, container); };
                         }, []);
                         return createElement(Context.Provider, {
                             value: container,
-                            children: _this.toElement(RouterService_1.middleElements(container), Component_1 ? createElement(Component_1) : createElement(Outlet))
+                            children: createElement(FunctionComponent_1, {
+                                children: Component_1 ? createElement(Component_1) : createElement(Outlet)
+                            })
                         });
                     })), children: list.length > 0 ? list : undefined });
+                if (container.isBound(ReactRouter.Route)) {
+                    container.unbind(ReactRouter.Route);
+                }
+                container.bind(ReactRouter.Route).toConstantValue(route);
+                return route;
             }
             return null;
         }).filter(Boolean);

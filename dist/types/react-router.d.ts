@@ -28,9 +28,15 @@ import React, { ComponentType } from "react";
  */
 export declare class ReactRouter {
     /**
+     * @deprecated
+     * Please use
      * ServiceIdentifier for route middle elements.
      */
     static middleElements: symbol;
+    /**
+     * ServiceIdentifier for route middle elements.
+     */
+    static middleElement: symbol;
     /**
      * ServiceIdentifier for `ErrorBoundary` element.
      */
@@ -39,6 +45,10 @@ export declare class ReactRouter {
      * ServiceIdentifier for `Fallback` element.
      */
     static Fallback: symbol;
+    /**
+     * ServiceIdentifier current
+     */
+    static Route: symbol;
     /**
      * Provide `ErrorBoundary` Element
      * @param ErrorBoundary

@@ -5,9 +5,9 @@ define(["require", "exports"], function (require, exports) {
     var RouteModuleLifeCycle = (function () {
         function RouteModuleLifeCycle() {
         }
-        RouteModuleLifeCycle.prototype.onInit = function () { };
-        RouteModuleLifeCycle.prototype.onMount = function () { };
-        RouteModuleLifeCycle.prototype.onUnmount = function () { };
+        RouteModuleLifeCycle.prototype.onInit = function (container) { };
+        RouteModuleLifeCycle.prototype.onMount = function (container) { };
+        RouteModuleLifeCycle.prototype.onUnmount = function (container) { };
         return RouteModuleLifeCycle;
     }());
     exports.RouteModuleLifeCycle = RouteModuleLifeCycle;
