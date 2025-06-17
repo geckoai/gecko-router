@@ -97,7 +97,7 @@ var RouterService = (function () {
                 var list = children ? children.concat(_this.getRoutes(childrenContainers)) : _this.getRoutes(childrenContainers);
                 var current_1 = container.get(gecko_core_1.Constants.instance);
                 (_a = current_1 === null || current_1 === void 0 ? void 0 : current_1.onInit) === null || _a === void 0 ? void 0 : _a.call(current_1, container);
-                var FunctionComponent_1 = container.get(react_router_1.ReactRouter.middleElement);
+                var FunctionComponent_1 = container.isBound(react_router_1.ReactRouter.middleElement) ? container.get(react_router_1.ReactRouter.middleElement) : null;
                 var route = __assign(__assign({}, rest), { ErrorBoundary: ErrorBoundary !== null && ErrorBoundary !== void 0 ? ErrorBoundary : (container.isBound(react_router_1.ReactRouter.ErrorBoundary) ? container.get(react_router_1.ReactRouter.ErrorBoundary) : undefined), element: (0, react_1.createElement)((function () {
                         (0, react_1.useEffect)(function () {
                             var _a;
@@ -106,9 +106,9 @@ var RouterService = (function () {
                         }, []);
                         return (0, react_1.createElement)(Context.Provider, {
                             value: container,
-                            children: (0, react_1.createElement)(FunctionComponent_1, {
+                            children: FunctionComponent_1 ? (0, react_1.createElement)(FunctionComponent_1, {
                                 children: Component_1 ? (0, react_1.createElement)(Component_1) : (0, react_1.createElement)(react_router_dom_1.Outlet)
-                            })
+                            }) : Component_1 ? (0, react_1.createElement)(Component_1) : (0, react_1.createElement)(react_router_dom_1.Outlet)
                         });
                     })), children: list.length > 0 ? list : undefined });
                 if (container.isBound(react_router_1.ReactRouter.Route)) {

@@ -92,7 +92,7 @@ var RouterService = (function () {
                 var list = children ? children.concat(_this.getRoutes(childrenContainers)) : _this.getRoutes(childrenContainers);
                 var current_1 = container.get(Constants.instance);
                 (_a = current_1 === null || current_1 === void 0 ? void 0 : current_1.onInit) === null || _a === void 0 ? void 0 : _a.call(current_1, container);
-                var FunctionComponent_1 = container.get(ReactRouter.middleElement);
+                var FunctionComponent_1 = container.isBound(ReactRouter.middleElement) ? container.get(ReactRouter.middleElement) : null;
                 var route = __assign(__assign({}, rest), { ErrorBoundary: ErrorBoundary !== null && ErrorBoundary !== void 0 ? ErrorBoundary : (container.isBound(ReactRouter.ErrorBoundary) ? container.get(ReactRouter.ErrorBoundary) : undefined), element: createElement((function () {
                         useEffect(function () {
                             var _a;
@@ -101,9 +101,9 @@ var RouterService = (function () {
                         }, []);
                         return createElement(Context.Provider, {
                             value: container,
-                            children: createElement(FunctionComponent_1, {
+                            children: FunctionComponent_1 ? createElement(FunctionComponent_1, {
                                 children: Component_1 ? createElement(Component_1) : createElement(Outlet)
-                            })
+                            }) : Component_1 ? createElement(Component_1) : createElement(Outlet)
                         });
                     })), children: list.length > 0 ? list : undefined });
                 if (container.isBound(ReactRouter.Route)) {
