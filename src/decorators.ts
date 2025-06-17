@@ -22,20 +22,32 @@
  * SOFTWARE.
  */
 
-import { ClassDecorate, ClassMirror } from '@geckoai/class-mirror';
-import { RouteObject } from 'react-router-dom';
-import { ApplyClassDecorators } from '@geckoai/gecko-core';
-import { DOMRouterOpts } from 'react-router';
-import { ComponentType } from 'react';
+import {ClassDecorate, ClassMirror} from '@geckoai/class-mirror';
+import {RouteObject} from 'react-router-dom';
+import {ApplyClassDecorators} from '@geckoai/gecko-core';
+import {DOMRouterOpts} from 'react-router';
+import {ComponentType} from 'react';
 
-export class GeckoRouteDecorate extends ClassDecorate<Omit<RouteObject, 'element'>> {}
-export class GeckoRouterDecorate<T> extends ClassDecorate<T> {}
-export class GeckoHashRouterDecorate extends GeckoRouterDecorate<DOMRouterOpts | undefined> {}
-export class GeckoBrowserRouterDecorate extends GeckoRouterDecorate<DOMRouterOpts | undefined> {}
-export class GeckoMemoryRouterDecorate extends GeckoRouterDecorate<DOMRouterOpts | undefined> {}
-export class GeckoFallbackDecorate extends ClassDecorate<ComponentType<any>> {}
-export class GeckoErrorBoundaryDecorate extends ClassDecorate<ComponentType<any>> {}
+export class GeckoRouteDecorate extends ClassDecorate<Omit<RouteObject, 'element'>> {
+}
 
+export class GeckoRouterDecorate<T> extends ClassDecorate<T> {
+}
+
+export class GeckoHashRouterDecorate extends GeckoRouterDecorate<DOMRouterOpts | undefined> {
+}
+
+export class GeckoBrowserRouterDecorate extends GeckoRouterDecorate<DOMRouterOpts | undefined> {
+}
+
+export class GeckoMemoryRouterDecorate extends GeckoRouterDecorate<DOMRouterOpts | undefined> {
+}
+
+export class GeckoFallbackDecorate extends ClassDecorate<ComponentType<any>> {
+}
+
+export class GeckoErrorBoundaryDecorate extends ClassDecorate<ComponentType<any>> {
+}
 
 /**
  * Decorator metadata for react-router route `RouteObject`
@@ -49,11 +61,11 @@ export function Route<TFunction extends Function>(arg: Omit<RouteObject, 'elemen
   switch (typeof arg) {
     case 'function':
       return ClassMirror.createDecorator(new GeckoRouteDecorate(
-        { path: '' }
+        {path: ''}
       ))(arg);
     case 'string':
       return ClassMirror.createDecorator(new GeckoRouteDecorate(
-        { path: arg }
+        {path: arg}
       ));
     default:
       return ClassMirror.createDecorator(new GeckoRouteDecorate(

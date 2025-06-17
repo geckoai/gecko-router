@@ -23,6 +23,8 @@
  */
 
 
+import {Container} from "@geckoai/gecko-core";
+
 /**
  * `Route` module for react lifecycle
  */
@@ -30,14 +32,14 @@ export abstract class RouteModuleLifeCycle {
   /**
    * 初始化
    */
-  public onInit(): void {}
+  public onInit?(container?: Container): void {}
   /**
    * 挂载
    */
-  public onMount(): void {}
+  public onMount?(container?: Container): void {}
 
   /**
    * 销毁
    */
-  public onUnmount(): void {}
+  public onUnmount?(container?: Container): void {}
 }

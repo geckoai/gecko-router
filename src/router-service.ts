@@ -79,14 +79,6 @@ export function useService<T>(serviceIdentifier: ServiceIdentifier<any>, opts?: 
 export class RouterService {
   constructor(private container: Container) { }
 
-  private static middleElements(container: Container) {
-    try {
-      return container.get<FC<PropsWithChildren>[]>(ReactRouter.middleElements);
-    } catch {
-      return []
-    }
-  }
-
   private static toElement(elements: FC<PropsWithChildren>[], children: ReactNode) {
     return elements.reverse().reduce((c, a) => {
       return createElement(a, {children: c})
@@ -117,23 +109,30 @@ export class RouterService {
         const {children, Component, ErrorBoundary, ...rest} = RouteDecorate.metadata;
         const list = children ? children.concat(this.getRoutes(childrenContainers)) : this.getRoutes(childrenContainers);
         const current = container.get<RouteModuleLifeCycle>(Constants.instance);
-        current?.onInit?.();
-
-        return {
+        current?.onInit?.(container);
+        const FunctionComponent = container.get<FC<PropsWithChildren>>(ReactRouter.middleElement);
+        const route = {
           ...rest,
           ErrorBoundary: ErrorBoundary ?? (container.isBound(ReactRouter.ErrorBoundary) ? container.get(ReactRouter.ErrorBoundary) : undefined),
           element: createElement((() => {
             useEffect(() => {
-              current?.onMount?.();
-              return () => current?.onUnmount?.()
+              current?.onMount?.(container);
+              return () => current?.onUnmount?.(container)
             }, [])
             return createElement(Context.Provider, {
               value: container,
-              children: this.toElement(RouterService.middleElements(container), Component ? createElement(Component) : createElement(Outlet))
+              children: createElement(FunctionComponent, {
+                children: Component ? createElement(Component) : createElement(Outlet)
+              })
             })
           }) as any),
           children: list.length > 0 ? list : undefined
         } as RouteObject;
+        if (container.isBound(ReactRouter.Route)) {
+          container.unbind(ReactRouter.Route);
+        }
+        container.bind(ReactRouter.Route).toConstantValue(route);
+        return route;
       }
       return null;
     }).filter<RouteObject>(Boolean as any);

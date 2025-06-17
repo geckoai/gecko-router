@@ -36,9 +36,16 @@ import React, {ComponentType, createElement} from "react";
 })
 export class ReactRouter {
   /**
+   * @deprecated
+   * Please use
    * ServiceIdentifier for route middle elements.
    */
   public static middleElements = Symbol.for("middleElements");
+
+  /**
+   * ServiceIdentifier for route middle elements.
+   */
+  public static middleElement = Symbol.for("middleElement");
 
   /**
    * ServiceIdentifier for `ErrorBoundary` element.
@@ -49,6 +56,11 @@ export class ReactRouter {
    * ServiceIdentifier for `Fallback` element.
    */
   public static Fallback = Symbol.for("Fallback");
+
+  /**
+   * ServiceIdentifier current
+   */
+  public static Route = Symbol.for("Route");
 
   /**
    * Provide `ErrorBoundary` Element
