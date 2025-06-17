@@ -110,7 +110,7 @@ export class RouterService {
         const list = children ? children.concat(this.getRoutes(childrenContainers)) : this.getRoutes(childrenContainers);
         const current = container.get<RouteModuleLifeCycle>(Constants.instance);
         current?.onInit?.(container);
-        const FunctionComponent = container.get<FC<PropsWithChildren>>(ReactRouter.middleElement);
+        const FunctionComponent = container.isBound(ReactRouter.middleElement) ? container.get<FC<PropsWithChildren>>(ReactRouter.middleElement) : null;
         const route = {
           ...rest,
           ErrorBoundary: ErrorBoundary ?? (container.isBound(ReactRouter.ErrorBoundary) ? container.get(ReactRouter.ErrorBoundary) : undefined),
@@ -121,9 +121,9 @@ export class RouterService {
             }, [])
             return createElement(Context.Provider, {
               value: container,
-              children: createElement(FunctionComponent, {
+              children: FunctionComponent ? createElement(FunctionComponent, {
                 children: Component ? createElement(Component) : createElement(Outlet)
-              })
+              }) : Component ? createElement(Component) : createElement(Outlet)
             })
           }) as any),
           children: list.length > 0 ? list : undefined
