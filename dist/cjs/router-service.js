@@ -112,7 +112,7 @@ var RouterService = (function () {
                         });
                     })), children: list.length > 0 ? list : undefined });
                 if (container.isBound(react_router_1.ReactRouter.Route)) {
-                    container.unbind(react_router_1.ReactRouter.Route);
+                    container.unbindSync(react_router_1.ReactRouter.Route);
                 }
                 container.bind(react_router_1.ReactRouter.Route).toConstantValue(route);
                 return route;

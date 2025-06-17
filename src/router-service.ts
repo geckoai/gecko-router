@@ -129,7 +129,7 @@ export class RouterService {
           children: list.length > 0 ? list : undefined
         } as RouteObject;
         if (container.isBound(ReactRouter.Route)) {
-          container.unbind(ReactRouter.Route);
+          container.unbindSync(ReactRouter.Route);
         }
         container.bind(ReactRouter.Route).toConstantValue(route);
         return route;
