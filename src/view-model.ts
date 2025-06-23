@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-import { Subject } from 'rxjs';
+import { UnaryFunction, Subject} from 'rxjs';
 import {Dispatch, SetStateAction, useEffect, useState} from "react";
 
 export class ViewModel<T> extends Subject<T> {
@@ -31,6 +31,14 @@ export class ViewModel<T> extends Subject<T> {
     this.asState = this.asState.bind(this);
     this.next = this.next.bind(this);
     this.next(value);
+  }
+
+  /**
+   * Create a new ViewModel
+   * @param value
+   */
+  public static for<T>(value: T) {
+    return new ViewModel<T>(value)
   }
 
   /**
@@ -55,17 +63,24 @@ export class ViewModel<T> extends Subject<T> {
     return [state, (callback) => {
       if (typeof callback === 'function') {
         this.next((callback as any)(this.value));
-      }  else {
+      } else {
         this.next(callback);
       }
     }]
   }
 
   /**
-   * Create a new ViewModel
-   * @param value
+   * Pipe to react `state`
+   * @param op
    */
-  public static for<T>(value: T) {
-    return new ViewModel<T>(value)
+  public pipeAsState<B>(op: UnaryFunction<T, B>): B {
+    const [state, setState] = useState(op(this.value))
+    useEffect(() => {
+      const subscribe = this.subscribe((v) => {
+        setState(op(v));
+      })
+      return () => subscribe.unsubscribe();
+    }, [state, setState])
+    return state;
   }
 }

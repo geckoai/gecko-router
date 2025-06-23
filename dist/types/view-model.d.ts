@@ -21,11 +21,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { Subject } from 'rxjs';
+import { UnaryFunction, Subject } from 'rxjs';
 import { Dispatch, SetStateAction } from "react";
 export declare class ViewModel<T> extends Subject<T> {
     value: T;
     constructor(value: T);
+    /**
+     * Create a new ViewModel
+     * @param value
+     */
+    static for<T>(value: T): ViewModel<T>;
     /**
      * Update current `state`
      * @param value
@@ -36,8 +41,8 @@ export declare class ViewModel<T> extends Subject<T> {
      */
     asState(): [T, Dispatch<SetStateAction<T>>];
     /**
-     * Create a new ViewModel
-     * @param value
+     * Pipe to react `state`
+     * @param op
      */
-    static for<T>(value: T): ViewModel<T>;
+    pipeAsState<B>(op: UnaryFunction<T, B>): B;
 }

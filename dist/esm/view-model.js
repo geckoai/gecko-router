@@ -25,6 +25,9 @@ var ViewModel = (function (_super) {
         _this.next(value);
         return _this;
     }
+    ViewModel.for = function (value) {
+        return new ViewModel(value);
+    };
     ViewModel.prototype.next = function (value) {
         this.value = value;
         _super.prototype.next.call(this, value);
@@ -45,8 +48,16 @@ var ViewModel = (function (_super) {
                 }
             }];
     };
-    ViewModel.for = function (value) {
-        return new ViewModel(value);
+    ViewModel.prototype.pipeAsState = function (op) {
+        var _this = this;
+        var _a = useState(op(this.value)), state = _a[0], setState = _a[1];
+        useEffect(function () {
+            var subscribe = _this.subscribe(function (v) {
+                setState(op(v));
+            });
+            return function () { return subscribe.unsubscribe(); };
+        }, [state, setState]);
+        return state;
     };
     return ViewModel;
 }(Subject));
