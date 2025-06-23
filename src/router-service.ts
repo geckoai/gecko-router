@@ -86,10 +86,10 @@ export class RouterService {
   }
 
   private static getRoutes(containers: Container[] = []): RouteObject[] {
-    return containers.map(container => {
+    const routes: RouteObject[] = [];
+    containers.map(container => {
       const childrenContainers = container.get<Container[]>(Constants.children);
       const mirror = container.get(ClassMirror);
-      const routes = mirror.getDecorates(GeckoRouteDecorate);
       const fallbacks = mirror.getDecorates(GeckoFallbackDecorate);
       const errorBoundarys = mirror.getDecorates(GeckoErrorBoundaryDecorate);
 
@@ -101,41 +101,43 @@ export class RouterService {
         container.bind(ReactRouter.Fallback).toConstantValue(fallbacks[0].metadata)
       }
 
-      if (routes && routes.length > 1) {
-        console.warn('There are multiple @Route decorators, and only the latest one will be selected for execution during runtime.');
-      }
-      const [RouteDecorate] = routes;
-      if (RouteDecorate?.metadata) {
-        const {children, Component, ErrorBoundary, ...rest} = RouteDecorate.metadata;
-        const list = children ? children.concat(this.getRoutes(childrenContainers)) : this.getRoutes(childrenContainers);
-        const current = container.get<RouteModuleLifeCycle>(Constants.instance);
-        current?.onInit?.(container);
-        const FunctionComponent = container.isBound(ReactRouter.middleElement) ? container.get<FC<PropsWithChildren>>(ReactRouter.middleElement) : null;
-        const route = {
-          ...rest,
-          ErrorBoundary: ErrorBoundary ?? (container.isBound(ReactRouter.ErrorBoundary) ? container.get(ReactRouter.ErrorBoundary) : undefined),
-          element: createElement((() => {
-            useEffect(() => {
-              current?.onMount?.(container);
-              return () => current?.onUnmount?.(container)
-            }, [])
-            return createElement(Context.Provider, {
-              value: container,
-              children: FunctionComponent ? createElement(FunctionComponent, {
-                children: Component ? createElement(Component) : createElement(Outlet)
-              }) : Component ? createElement(Component) : createElement(Outlet)
-            })
-          }) as any),
-          children: list.length > 0 ? list : undefined
-        } as RouteObject;
-        if (container.isBound(ReactRouter.Route)) {
-          container.unbindSync(ReactRouter.Route);
+      const decorates = mirror.getDecorates(GeckoRouteDecorate);
+
+      decorates.forEach(RouteDecorate => {
+        if (RouteDecorate?.metadata) {
+          const {children, Component, ErrorBoundary, ...rest} = RouteDecorate.metadata;
+          const list = children ? children.concat(this.getRoutes(childrenContainers)) : this.getRoutes(childrenContainers);
+          const current = container.get<RouteModuleLifeCycle>(Constants.instance);
+          current?.onInit?.(container);
+          const FunctionComponent = container.isBound(ReactRouter.middleElement) ? container.get<FC<PropsWithChildren>>(ReactRouter.middleElement) : null;
+          const route = {
+            ...rest,
+            ErrorBoundary: ErrorBoundary ?? (container.isBound(ReactRouter.ErrorBoundary) ? container.get(ReactRouter.ErrorBoundary) : undefined),
+            element: createElement((() => {
+              useEffect(() => {
+                current?.onMount?.(container);
+                return () => current?.onUnmount?.(container)
+              }, [])
+              return createElement(Context.Provider, {
+                value: container,
+                children: FunctionComponent ? createElement(FunctionComponent, {
+                  children: Component ? createElement(Component) : createElement(Outlet)
+                }) : Component ? createElement(Component) : createElement(Outlet)
+              })
+            }) as any),
+            children: list.length > 0 ? list : undefined
+          } as RouteObject;
+          if (container.isBound(ReactRouter.Route)) {
+            container.unbindSync(ReactRouter.Route);
+          }
+          container.bind(ReactRouter.Route).toConstantValue(route);
+
+          routes.push(route as unknown as RouteObject);
         }
-        container.bind(ReactRouter.Route).toConstantValue(route);
-        return route;
-      }
-      return null;
-    }).filter<RouteObject>(Boolean as any);
+      });
+    })
+
+    return routes;
   }
   public getRouter() {
     const {container} = this;

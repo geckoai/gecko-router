@@ -70,11 +70,10 @@ var RouterService = (function () {
     RouterService.getRoutes = function (containers) {
         var _this = this;
         if (containers === void 0) { containers = []; }
-        return containers.map(function (container) {
-            var _a;
+        var routes = [];
+        containers.map(function (container) {
             var childrenContainers = container.get(Constants.children);
             var mirror = container.get(ClassMirror);
-            var routes = mirror.getDecorates(GeckoRouteDecorate);
             var fallbacks = mirror.getDecorates(GeckoFallbackDecorate);
             var errorBoundarys = mirror.getDecorates(GeckoErrorBoundaryDecorate);
             if (!container.isBound(ReactRouter.ErrorBoundary) && errorBoundarys[0]) {
@@ -83,37 +82,37 @@ var RouterService = (function () {
             if (!container.isBound(ReactRouter.ErrorBoundary) && fallbacks[0]) {
                 container.bind(ReactRouter.Fallback).toConstantValue(fallbacks[0].metadata);
             }
-            if (routes && routes.length > 1) {
-                console.warn('There are multiple @Route decorators, and only the latest one will be selected for execution during runtime.');
-            }
-            var RouteDecorate = routes[0];
-            if (RouteDecorate === null || RouteDecorate === void 0 ? void 0 : RouteDecorate.metadata) {
-                var _b = RouteDecorate.metadata, children = _b.children, Component_1 = _b.Component, ErrorBoundary = _b.ErrorBoundary, rest = __rest(_b, ["children", "Component", "ErrorBoundary"]);
-                var list = children ? children.concat(_this.getRoutes(childrenContainers)) : _this.getRoutes(childrenContainers);
-                var current_1 = container.get(Constants.instance);
-                (_a = current_1 === null || current_1 === void 0 ? void 0 : current_1.onInit) === null || _a === void 0 ? void 0 : _a.call(current_1, container);
-                var FunctionComponent_1 = container.isBound(ReactRouter.middleElement) ? container.get(ReactRouter.middleElement) : null;
-                var route = __assign(__assign({}, rest), { ErrorBoundary: ErrorBoundary !== null && ErrorBoundary !== void 0 ? ErrorBoundary : (container.isBound(ReactRouter.ErrorBoundary) ? container.get(ReactRouter.ErrorBoundary) : undefined), element: createElement((function () {
-                        useEffect(function () {
-                            var _a;
-                            (_a = current_1 === null || current_1 === void 0 ? void 0 : current_1.onMount) === null || _a === void 0 ? void 0 : _a.call(current_1, container);
-                            return function () { var _a; return (_a = current_1 === null || current_1 === void 0 ? void 0 : current_1.onUnmount) === null || _a === void 0 ? void 0 : _a.call(current_1, container); };
-                        }, []);
-                        return createElement(Context.Provider, {
-                            value: container,
-                            children: FunctionComponent_1 ? createElement(FunctionComponent_1, {
-                                children: Component_1 ? createElement(Component_1) : createElement(Outlet)
-                            }) : Component_1 ? createElement(Component_1) : createElement(Outlet)
-                        });
-                    })), children: list.length > 0 ? list : undefined });
-                if (container.isBound(ReactRouter.Route)) {
-                    container.unbindSync(ReactRouter.Route);
+            var decorates = mirror.getDecorates(GeckoRouteDecorate);
+            decorates.forEach(function (RouteDecorate) {
+                var _a;
+                if (RouteDecorate === null || RouteDecorate === void 0 ? void 0 : RouteDecorate.metadata) {
+                    var _b = RouteDecorate.metadata, children = _b.children, Component_1 = _b.Component, ErrorBoundary = _b.ErrorBoundary, rest = __rest(_b, ["children", "Component", "ErrorBoundary"]);
+                    var list = children ? children.concat(_this.getRoutes(childrenContainers)) : _this.getRoutes(childrenContainers);
+                    var current_1 = container.get(Constants.instance);
+                    (_a = current_1 === null || current_1 === void 0 ? void 0 : current_1.onInit) === null || _a === void 0 ? void 0 : _a.call(current_1, container);
+                    var FunctionComponent_1 = container.isBound(ReactRouter.middleElement) ? container.get(ReactRouter.middleElement) : null;
+                    var route = __assign(__assign({}, rest), { ErrorBoundary: ErrorBoundary !== null && ErrorBoundary !== void 0 ? ErrorBoundary : (container.isBound(ReactRouter.ErrorBoundary) ? container.get(ReactRouter.ErrorBoundary) : undefined), element: createElement((function () {
+                            useEffect(function () {
+                                var _a;
+                                (_a = current_1 === null || current_1 === void 0 ? void 0 : current_1.onMount) === null || _a === void 0 ? void 0 : _a.call(current_1, container);
+                                return function () { var _a; return (_a = current_1 === null || current_1 === void 0 ? void 0 : current_1.onUnmount) === null || _a === void 0 ? void 0 : _a.call(current_1, container); };
+                            }, []);
+                            return createElement(Context.Provider, {
+                                value: container,
+                                children: FunctionComponent_1 ? createElement(FunctionComponent_1, {
+                                    children: Component_1 ? createElement(Component_1) : createElement(Outlet)
+                                }) : Component_1 ? createElement(Component_1) : createElement(Outlet)
+                            });
+                        })), children: list.length > 0 ? list : undefined });
+                    if (container.isBound(ReactRouter.Route)) {
+                        container.unbindSync(ReactRouter.Route);
+                    }
+                    container.bind(ReactRouter.Route).toConstantValue(route);
+                    routes.push(route);
                 }
-                container.bind(ReactRouter.Route).toConstantValue(route);
-                return route;
-            }
-            return null;
-        }).filter(Boolean);
+            });
+        });
+        return routes;
     };
     RouterService.prototype.getRouter = function () {
         var container = this.container;
