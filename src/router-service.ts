@@ -109,10 +109,10 @@ export class RouterService {
           const route = {
             ...rest,
             loader: typeof loader === 'boolean' ? loader : (args, handlerCtx) => {
-              loader?.(args, container, handlerCtx);
+              return loader?.(args, container, handlerCtx);
             },
             action: typeof action === 'boolean' ? action : (args, handlerCtx) => {
-              action?.(args, container, handlerCtx);
+             return action?.(args, container, handlerCtx);
             },
             ErrorBoundary: ErrorBoundary ?? (container.isBound(ReactRouter.ErrorBoundary) ? container.get(ReactRouter.ErrorBoundary) : undefined),
             element: createElement((() => {

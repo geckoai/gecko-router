@@ -92,9 +92,9 @@ define(["require", "exports", "@geckoai/class-mirror", "@geckoai/gecko-core", "r
                         (_a = current_1 === null || current_1 === void 0 ? void 0 : current_1.onInit) === null || _a === void 0 ? void 0 : _a.call(current_1, container);
                         var FunctionComponent_1 = container.isBound(react_router_1.ReactRouter.middleElement) ? container.get(react_router_1.ReactRouter.middleElement) : null;
                         var route = __assign(__assign({}, rest), { loader: typeof loader_1 === 'boolean' ? loader_1 : function (args, handlerCtx) {
-                                loader_1 === null || loader_1 === void 0 ? void 0 : loader_1(args, container, handlerCtx);
+                                return loader_1 === null || loader_1 === void 0 ? void 0 : loader_1(args, container, handlerCtx);
                             }, action: typeof action_1 === 'boolean' ? action_1 : function (args, handlerCtx) {
-                                action_1 === null || action_1 === void 0 ? void 0 : action_1(args, container, handlerCtx);
+                                return action_1 === null || action_1 === void 0 ? void 0 : action_1(args, container, handlerCtx);
                             }, ErrorBoundary: ErrorBoundary !== null && ErrorBoundary !== void 0 ? ErrorBoundary : (container.isBound(react_router_1.ReactRouter.ErrorBoundary) ? container.get(react_router_1.ReactRouter.ErrorBoundary) : undefined), element: (0, react_1.createElement)((function () {
                                 (0, react_1.useEffect)(function () {
                                     var _a;

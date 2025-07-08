@@ -92,9 +92,9 @@ var RouterService = (function () {
                     (_a = current_1 === null || current_1 === void 0 ? void 0 : current_1.onInit) === null || _a === void 0 ? void 0 : _a.call(current_1, container);
                     var FunctionComponent_1 = container.isBound(ReactRouter.middleElement) ? container.get(ReactRouter.middleElement) : null;
                     var route = __assign(__assign({}, rest), { loader: typeof loader_1 === 'boolean' ? loader_1 : function (args, handlerCtx) {
-                            loader_1 === null || loader_1 === void 0 ? void 0 : loader_1(args, container, handlerCtx);
+                            return loader_1 === null || loader_1 === void 0 ? void 0 : loader_1(args, container, handlerCtx);
                         }, action: typeof action_1 === 'boolean' ? action_1 : function (args, handlerCtx) {
-                            action_1 === null || action_1 === void 0 ? void 0 : action_1(args, container, handlerCtx);
+                            return action_1 === null || action_1 === void 0 ? void 0 : action_1(args, container, handlerCtx);
                         }, ErrorBoundary: ErrorBoundary !== null && ErrorBoundary !== void 0 ? ErrorBoundary : (container.isBound(ReactRouter.ErrorBoundary) ? container.get(ReactRouter.ErrorBoundary) : undefined), element: createElement((function () {
                             useEffect(function () {
                                 var _a;
