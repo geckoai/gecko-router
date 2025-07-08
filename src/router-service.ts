@@ -160,3 +160,5 @@ export class RouterService {
     }
   }
 }
+
+export const RouteContainerContext = Context;
