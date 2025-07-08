@@ -92,26 +92,28 @@ export class RouterService {
       const mirror = container.get(ClassMirror);
       const fallbacks = mirror.getDecorates(GeckoFallbackDecorate);
       const errorBoundarys = mirror.getDecorates(GeckoErrorBoundaryDecorate);
-
       if (!container.isBound(ReactRouter.ErrorBoundary) && errorBoundarys[0]) {
         container.bind(ReactRouter.ErrorBoundary).toConstantValue(errorBoundarys[0].metadata)
       }
-
       if (!container.isBound(ReactRouter.ErrorBoundary) && fallbacks[0]) {
         container.bind(ReactRouter.Fallback).toConstantValue(fallbacks[0].metadata)
       }
-
       const decorates = mirror.getDecorates(GeckoRouteDecorate);
-
       decorates.forEach(RouteDecorate => {
         if (RouteDecorate?.metadata) {
-          const {children, Component, ErrorBoundary, ...rest} = RouteDecorate.metadata;
+          const {children, Component, ErrorBoundary, action, loader, ...rest} = RouteDecorate.metadata;
           const list = children ? children.concat(this.getRoutes(childrenContainers)) : this.getRoutes(childrenContainers);
           const current = container.get<RouteModuleLifeCycle>(Constants.instance);
           current?.onInit?.(container);
           const FunctionComponent = container.isBound(ReactRouter.middleElement) ? container.get<FC<PropsWithChildren>>(ReactRouter.middleElement) : null;
           const route = {
             ...rest,
+            loader: typeof loader === 'boolean' ? loader : (args, handlerCtx) => {
+              loader?.(args, container, handlerCtx);
+            },
+            action: typeof action === 'boolean' ? action : (args, handlerCtx) => {
+              action?.(args, container, handlerCtx);
+            },
             ErrorBoundary: ErrorBoundary ?? (container.isBound(ReactRouter.ErrorBoundary) ? container.get(ReactRouter.ErrorBoundary) : undefined),
             element: createElement((() => {
               useEffect(() => {
@@ -131,7 +133,6 @@ export class RouterService {
             container.unbindSync(ReactRouter.Route);
           }
           container.bind(ReactRouter.Route).toConstantValue(route);
-
           routes.push(route as unknown as RouteObject);
         }
       });

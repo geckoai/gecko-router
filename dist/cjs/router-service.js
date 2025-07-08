@@ -31,7 +31,7 @@ var __rest = (this && this.__rest) || function (s, e) {
     return t;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.RouterService = exports.useService = exports.useContainer = void 0;
+exports.RouteContainerContext = exports.RouterService = exports.useService = exports.useContainer = void 0;
 var class_mirror_1 = require("@geckoai/class-mirror");
 var gecko_core_1 = require("@geckoai/gecko-core");
 var react_1 = require("react");
@@ -91,12 +91,16 @@ var RouterService = (function () {
             decorates.forEach(function (RouteDecorate) {
                 var _a;
                 if (RouteDecorate === null || RouteDecorate === void 0 ? void 0 : RouteDecorate.metadata) {
-                    var _b = RouteDecorate.metadata, children = _b.children, Component_1 = _b.Component, ErrorBoundary = _b.ErrorBoundary, rest = __rest(_b, ["children", "Component", "ErrorBoundary"]);
+                    var _b = RouteDecorate.metadata, children = _b.children, Component_1 = _b.Component, ErrorBoundary = _b.ErrorBoundary, action_1 = _b.action, loader_1 = _b.loader, rest = __rest(_b, ["children", "Component", "ErrorBoundary", "action", "loader"]);
                     var list = children ? children.concat(_this.getRoutes(childrenContainers)) : _this.getRoutes(childrenContainers);
                     var current_1 = container.get(gecko_core_1.Constants.instance);
                     (_a = current_1 === null || current_1 === void 0 ? void 0 : current_1.onInit) === null || _a === void 0 ? void 0 : _a.call(current_1, container);
                     var FunctionComponent_1 = container.isBound(react_router_1.ReactRouter.middleElement) ? container.get(react_router_1.ReactRouter.middleElement) : null;
-                    var route = __assign(__assign({}, rest), { ErrorBoundary: ErrorBoundary !== null && ErrorBoundary !== void 0 ? ErrorBoundary : (container.isBound(react_router_1.ReactRouter.ErrorBoundary) ? container.get(react_router_1.ReactRouter.ErrorBoundary) : undefined), element: (0, react_1.createElement)((function () {
+                    var route = __assign(__assign({}, rest), { loader: typeof loader_1 === 'boolean' ? loader_1 : function (args, handlerCtx) {
+                            loader_1 === null || loader_1 === void 0 ? void 0 : loader_1(args, container, handlerCtx);
+                        }, action: typeof action_1 === 'boolean' ? action_1 : function (args, handlerCtx) {
+                            action_1 === null || action_1 === void 0 ? void 0 : action_1(args, container, handlerCtx);
+                        }, ErrorBoundary: ErrorBoundary !== null && ErrorBoundary !== void 0 ? ErrorBoundary : (container.isBound(react_router_1.ReactRouter.ErrorBoundary) ? container.get(react_router_1.ReactRouter.ErrorBoundary) : undefined), element: (0, react_1.createElement)((function () {
                             (0, react_1.useEffect)(function () {
                                 var _a;
                                 (_a = current_1 === null || current_1 === void 0 ? void 0 : current_1.onMount) === null || _a === void 0 ? void 0 : _a.call(current_1, container);
@@ -143,3 +147,4 @@ var RouterService = (function () {
     return RouterService;
 }());
 exports.RouterService = RouterService;
+exports.RouteContainerContext = Context;

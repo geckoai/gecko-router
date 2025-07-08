@@ -24,11 +24,92 @@
 
 import {ClassDecorate, ClassMirror} from '@geckoai/class-mirror';
 import {RouteObject} from 'react-router-dom';
-import {ApplyClassDecorators} from '@geckoai/gecko-core';
+import {ApplyClassDecorators, Container} from '@geckoai/gecko-core';
 import {DOMRouterOpts} from 'react-router';
 import {ComponentType} from 'react';
 
-export class GeckoRouteDecorate extends ClassDecorate<Omit<RouteObject, 'element'>> {
+interface Future {
+}
+
+type MiddlewareEnabled = Future extends {
+  unstable_middleware: infer T extends boolean;
+} ? T : false;
+
+interface unstable_RouterContext<T = unknown> {
+  defaultValue?: T;
+}
+
+declare class unstable_RouterContextProvider {
+  get<T>(context: unstable_RouterContext<T>): T;
+
+  set<C extends unstable_RouterContext>(context: C, value: C extends unstable_RouterContext<infer T> ? T : never): void;
+}
+
+type DefaultContext = MiddlewareEnabled extends true ? unstable_RouterContextProvider : any;
+
+type Params<Key extends string = string> = {
+  readonly [key in Key]: string | undefined;
+};
+
+
+interface DataFunctionArgs<Context> {
+  /** A {@link https://developer.mozilla.org/en-US/docs/Web/API/Request Fetch Request instance} which you can use to read headers (like cookies, and {@link https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams URLSearchParams} from the request. */
+  request: Request;
+  /**
+   * {@link https://reactrouter.com/start/framework/routing#dynamic-segments Dynamic route params} for the current route.
+   * @example
+   * // app/routes.ts
+   * route("teams/:teamId", "./team.tsx"),
+   *
+   * // app/team.tsx
+   * export function loader({
+   *   params,
+   * }: Route.LoaderArgs) {
+   *   params.teamId;
+   *   //        ^ string
+   * }
+   **/
+  params: Params;
+  /**
+   * This is the context passed in to your server adapter's getLoadContext() function.
+   * It's a way to bridge the gap between the adapter's request/response API with your React Router app.
+   * It is only applicable if you are using a custom server adapter.
+   */
+  context: Context;
+}
+
+interface ActionFunctionArgs<Context = DefaultContext> extends DataFunctionArgs<Context> {
+}
+
+type MaybePromise<T> = T | Promise<T>;
+
+type DataFunctionValue = unknown;
+
+type DataFunctionReturnValue = MaybePromise<DataFunctionValue>;
+
+interface ActionFunction<Context = DefaultContext> {
+  (args: ActionFunctionArgs<Context>, handlerCtx?: unknown): DataFunctionReturnValue;
+}
+
+interface LoaderFunctionArgs<Context = DefaultContext> extends DataFunctionArgs<Context> {
+}
+
+type LoaderFunction<Context = DefaultContext> = {
+  (args: LoaderFunctionArgs<Context>, container: Container, handlerCtx?: unknown): DataFunctionReturnValue;
+} & {
+  hydrate?: boolean;
+};
+
+interface ActionFunction<Context = DefaultContext> {
+  (args: ActionFunctionArgs<Context>, container: Container, handlerCtx?: unknown): DataFunctionReturnValue;
+}
+
+export interface GeckoRouteMetadata extends Omit<RouteObject, 'element' | 'loader' | 'action'>  {
+  loader?: LoaderFunction | boolean;
+  action?: ActionFunction | boolean;
+}
+
+export class GeckoRouteDecorate extends ClassDecorate<GeckoRouteMetadata> {
 }
 
 export class GeckoRouterDecorate<T> extends ClassDecorate<T> {
@@ -56,8 +137,8 @@ export class GeckoErrorBoundaryDecorate extends ClassDecorate<ComponentType<any>
  */
 export function Route<TFunction extends Function>(target: TFunction): TFunction | void;
 export function Route(path: string): ClassDecorator;
-export function Route(route: Omit<RouteObject, 'element'>): ClassDecorator;
-export function Route<TFunction extends Function>(arg: Omit<RouteObject, 'element'> | string | TFunction): ClassDecorator | (TFunction | void) {
+export function Route(route: Omit<GeckoRouteMetadata, 'element'>): ClassDecorator;
+export function Route<TFunction extends Function>(arg: Omit<GeckoRouteMetadata, 'element'> | string | TFunction): ClassDecorator | (TFunction | void) {
   switch (typeof arg) {
     case 'function':
       return ClassMirror.createDecorator(new GeckoRouteDecorate(

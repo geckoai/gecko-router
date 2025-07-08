@@ -21,6 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+/// <reference types="react" />
 import { Container } from "@geckoai/gecko-core";
 import type { OptionalGetOptions, ServiceIdentifier } from 'inversify';
 export declare function useContainer(): Container;
@@ -32,3 +33,4 @@ export declare class RouterService {
     private static getRoutes;
     getRouter(): import("react-router/dist/development/register-DCE0tH5m").d;
 }
+export declare const RouteContainerContext: import("react").Context<Container>;

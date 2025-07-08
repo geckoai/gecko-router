@@ -86,12 +86,16 @@ var RouterService = (function () {
             decorates.forEach(function (RouteDecorate) {
                 var _a;
                 if (RouteDecorate === null || RouteDecorate === void 0 ? void 0 : RouteDecorate.metadata) {
-                    var _b = RouteDecorate.metadata, children = _b.children, Component_1 = _b.Component, ErrorBoundary = _b.ErrorBoundary, rest = __rest(_b, ["children", "Component", "ErrorBoundary"]);
+                    var _b = RouteDecorate.metadata, children = _b.children, Component_1 = _b.Component, ErrorBoundary = _b.ErrorBoundary, action_1 = _b.action, loader_1 = _b.loader, rest = __rest(_b, ["children", "Component", "ErrorBoundary", "action", "loader"]);
                     var list = children ? children.concat(_this.getRoutes(childrenContainers)) : _this.getRoutes(childrenContainers);
                     var current_1 = container.get(Constants.instance);
                     (_a = current_1 === null || current_1 === void 0 ? void 0 : current_1.onInit) === null || _a === void 0 ? void 0 : _a.call(current_1, container);
                     var FunctionComponent_1 = container.isBound(ReactRouter.middleElement) ? container.get(ReactRouter.middleElement) : null;
-                    var route = __assign(__assign({}, rest), { ErrorBoundary: ErrorBoundary !== null && ErrorBoundary !== void 0 ? ErrorBoundary : (container.isBound(ReactRouter.ErrorBoundary) ? container.get(ReactRouter.ErrorBoundary) : undefined), element: createElement((function () {
+                    var route = __assign(__assign({}, rest), { loader: typeof loader_1 === 'boolean' ? loader_1 : function (args, handlerCtx) {
+                            loader_1 === null || loader_1 === void 0 ? void 0 : loader_1(args, container, handlerCtx);
+                        }, action: typeof action_1 === 'boolean' ? action_1 : function (args, handlerCtx) {
+                            action_1 === null || action_1 === void 0 ? void 0 : action_1(args, container, handlerCtx);
+                        }, ErrorBoundary: ErrorBoundary !== null && ErrorBoundary !== void 0 ? ErrorBoundary : (container.isBound(ReactRouter.ErrorBoundary) ? container.get(ReactRouter.ErrorBoundary) : undefined), element: createElement((function () {
                             useEffect(function () {
                                 var _a;
                                 (_a = current_1 === null || current_1 === void 0 ? void 0 : current_1.onMount) === null || _a === void 0 ? void 0 : _a.call(current_1, container);
@@ -138,3 +142,4 @@ var RouterService = (function () {
     return RouterService;
 }());
 export { RouterService };
+export var RouteContainerContext = Context;
