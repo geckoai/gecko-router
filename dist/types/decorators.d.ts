@@ -28,21 +28,21 @@ import { DOMRouterOpts } from 'react-router';
 import { ComponentType } from 'react';
 interface Future {
 }
-type MiddlewareEnabled = Future extends {
+export type MiddlewareEnabled = Future extends {
     unstable_middleware: infer T extends boolean;
 } ? T : false;
-interface unstable_RouterContext<T = unknown> {
+export interface unstable_RouterContext<T = unknown> {
     defaultValue?: T;
 }
-declare class unstable_RouterContextProvider {
+export declare class unstable_RouterContextProvider {
     get<T>(context: unstable_RouterContext<T>): T;
     set<C extends unstable_RouterContext>(context: C, value: C extends unstable_RouterContext<infer T> ? T : never): void;
 }
-type DefaultContext = MiddlewareEnabled extends true ? unstable_RouterContextProvider : any;
-type Params<Key extends string = string> = {
+export type DefaultContext = MiddlewareEnabled extends true ? unstable_RouterContextProvider : any;
+export type Params<Key extends string = string> = {
     readonly [key in Key]: string | undefined;
 };
-interface DataFunctionArgs<Context> {
+export interface DataFunctionArgs<Context> {
     /** A {@link https://developer.mozilla.org/en-US/docs/Web/API/Request Fetch Request instance} which you can use to read headers (like cookies, and {@link https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams URLSearchParams} from the request. */
     request: Request;
     /**
@@ -67,24 +67,21 @@ interface DataFunctionArgs<Context> {
      */
     context: Context;
 }
-interface ActionFunctionArgs<Context = DefaultContext> extends DataFunctionArgs<Context> {
+export interface ActionFunctionArgs<Context = DefaultContext> extends DataFunctionArgs<Context> {
 }
-type MaybePromise<T> = T | Promise<T>;
-type DataFunctionValue = unknown;
-type DataFunctionReturnValue = MaybePromise<DataFunctionValue>;
-interface ActionFunction<Context = DefaultContext> {
-    (args: ActionFunctionArgs<Context>, handlerCtx?: unknown): DataFunctionReturnValue;
+export type MaybePromise<T> = T | Promise<T>;
+export type DataFunctionValue = unknown;
+export type DataFunctionReturnValue = MaybePromise<DataFunctionValue>;
+export interface ActionFunction<Context = DefaultContext> {
+    (args: ActionFunctionArgs<Context>, container: Container, handlerCtx?: unknown): DataFunctionReturnValue;
 }
-interface LoaderFunctionArgs<Context = DefaultContext> extends DataFunctionArgs<Context> {
+export interface LoaderFunctionArgs<Context = DefaultContext> extends DataFunctionArgs<Context> {
 }
-type LoaderFunction<Context = DefaultContext> = {
+export type LoaderFunction<Context = DefaultContext> = {
     (args: LoaderFunctionArgs<Context>, container: Container, handlerCtx?: unknown): DataFunctionReturnValue;
 } & {
     hydrate?: boolean;
 };
-interface ActionFunction<Context = DefaultContext> {
-    (args: ActionFunctionArgs<Context>, container: Container, handlerCtx?: unknown): DataFunctionReturnValue;
-}
 export interface GeckoRouteMetadata extends Omit<RouteObject, 'element' | 'loader' | 'action'> {
     loader?: LoaderFunction | boolean;
     action?: ActionFunction | boolean;
