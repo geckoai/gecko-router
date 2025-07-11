@@ -65,14 +65,10 @@ export function useService<T>(serviceIdentifier: ServiceIdentifier<any>, opts?: 
       throw e
     }
   }
-
   if (ref.current === null) {
     throw new Error("No service identifier provided");
   }
-
   return ref.current;
-
-
 }
 
 @injectable()
@@ -106,6 +102,7 @@ export class RouterService {
           const current = container.get<RouteModuleLifeCycle>(Constants.instance);
           current?.onInit?.(container);
           const FunctionComponent = container.isBound(ReactRouter.middleElement) ? container.get<FC<PropsWithChildren>>(ReactRouter.middleElement) : null;
+
           const route = {
             ...rest,
             loader: typeof loader === 'boolean' ? loader : (args, handlerCtx) => {
@@ -115,18 +112,20 @@ export class RouterService {
              return action?.(args, container, handlerCtx);
             },
             ErrorBoundary: ErrorBoundary ?? (container.isBound(ReactRouter.ErrorBoundary) ? container.get(ReactRouter.ErrorBoundary) : undefined),
-            element: createElement((() => {
+            Component: function C() {
               useEffect(() => {
                 current?.onMount?.(container);
                 return () => current?.onUnmount?.(container)
               }, [])
+
+              const children = Component ? createElement(Component) : createElement(Outlet);
               return createElement(Context.Provider, {
                 value: container,
                 children: FunctionComponent ? createElement(FunctionComponent, {
-                  children: Component ? createElement(Component) : createElement(Outlet)
-                }) : Component ? createElement(Component) : createElement(Outlet)
+                  children
+                }) : children
               })
-            }) as any),
+            },
             children: list.length > 0 ? list : undefined
           } as RouteObject;
           if (container.isBound(ReactRouter.Route)) {

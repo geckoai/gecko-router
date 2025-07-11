@@ -95,19 +95,20 @@ var RouterService = (function () {
                             return loader_1 === null || loader_1 === void 0 ? void 0 : loader_1(args, container, handlerCtx);
                         }, action: typeof action_1 === 'boolean' ? action_1 : function (args, handlerCtx) {
                             return action_1 === null || action_1 === void 0 ? void 0 : action_1(args, container, handlerCtx);
-                        }, ErrorBoundary: ErrorBoundary !== null && ErrorBoundary !== void 0 ? ErrorBoundary : (container.isBound(ReactRouter.ErrorBoundary) ? container.get(ReactRouter.ErrorBoundary) : undefined), element: createElement((function () {
+                        }, ErrorBoundary: ErrorBoundary !== null && ErrorBoundary !== void 0 ? ErrorBoundary : (container.isBound(ReactRouter.ErrorBoundary) ? container.get(ReactRouter.ErrorBoundary) : undefined), Component: function C() {
                             useEffect(function () {
                                 var _a;
                                 (_a = current_1 === null || current_1 === void 0 ? void 0 : current_1.onMount) === null || _a === void 0 ? void 0 : _a.call(current_1, container);
                                 return function () { var _a; return (_a = current_1 === null || current_1 === void 0 ? void 0 : current_1.onUnmount) === null || _a === void 0 ? void 0 : _a.call(current_1, container); };
                             }, []);
+                            var children = Component_1 ? createElement(Component_1) : createElement(Outlet);
                             return createElement(Context.Provider, {
                                 value: container,
                                 children: FunctionComponent_1 ? createElement(FunctionComponent_1, {
-                                    children: Component_1 ? createElement(Component_1) : createElement(Outlet)
-                                }) : Component_1 ? createElement(Component_1) : createElement(Outlet)
+                                    children: children
+                                }) : children
                             });
-                        })), children: list.length > 0 ? list : undefined });
+                        }, children: list.length > 0 ? list : undefined });
                     if (container.isBound(ReactRouter.Route)) {
                         container.unbindSync(ReactRouter.Route);
                     }
