@@ -2,9 +2,9 @@
   "name": "@geckoai/platform-react",
   "version": "1.0.11",
   "description": "",
-  "main": "src",
-  "types": "src",
-  "module": "src",
+  "main": "dist/cjs",
+  "types": "dist/types",
+  "module": "dist/esm",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:clean": "rimraf dist && rimraf docs",
